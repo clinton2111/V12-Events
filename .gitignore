@@ -1,0 +1,10 @@
+/bower_components
+/node_modules
+/vendor
+
+.env
+.idea
+*.iml
+out
+gen
+

@@ -1,0 +1,29 @@
+{
+  "name": "V12Events",
+  "authors": [
+    "Clinton D'souza <clinton_dsouza92@yahoo.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.8",
+    "angular-ui-router": "~0.2.15",
+    "Materialize": "materialize#~0.97.3",
+    "font-awesome": "~4.5.0",
+    "angular-scroll": "~1.0.0",
+    "satellizer": "~0.13.1",
+    "moment": "~2.10.6",
+    "underscore": "~1.8.3",
+    "angular-md5": "~0.1.10"
+  }
+}
