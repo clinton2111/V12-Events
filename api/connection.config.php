@@ -23,8 +23,11 @@ $DB_DATABASE = getenv('DB_DATABASE');
 $DB_USERNAME = getenv('DB_USERNAME');
 $DB_PASSWORD = getenv('DB_PASSWORD');
 
-$link = mysql_connect($DB_HOST, $DB_USERNAME, $DB_PASSWORD) or die("Couldn't make connection.");
-$db = mysql_select_db($DB_DATABASE, $link) or die("Couldn't select database");
+//$link = mysql_connect($DB_HOST, $DB_USERNAME, $DB_PASSWORD) or die("Couldn't make connection.");
+//$db = mysql_select_db($DB_DATABASE, $link) or die("Couldn't select database");
 
-
+$db = mysqli_connect($DB_HOST, $DB_USERNAME, $DB_PASSWORD, $DB_DATABASE);
+if ($db->connect_error) {
+    $error = $db->connect_error;
+}
 

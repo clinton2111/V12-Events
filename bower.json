@@ -24,6 +24,7 @@
     "satellizer": "~0.13.1",
     "moment": "~2.10.6",
     "underscore": "~1.8.3",
-    "angular-md5": "~0.1.10"
+    "angular-md5": "~0.1.10",
+    "ngstorage": "~0.3.10"
   }
 }

@@ -1,8 +1,18 @@
 <?php
 header('Content-Type: application/javascript');
-include 'connection.config.php';
 require_once '../vendor/firebase/php-jwt/src/JWT.php';
 use \Firebase\JWT\JWT;
+
+try {
+    include 'connection.config.php';
+    include 'HttpFunction.php';
+} catch (Exception $e) {
+    header_status(500);
+    $response['status'] = 'Error';
+    $response['message'] = $e->getMessage();
+    echo json_encode($response);
+    die();
+}
 
 $headers = apache_request_headers();
 $data = str_replace("Bearer ", "", $headers['Authorization']);
@@ -23,7 +33,7 @@ try {
     $response['id'] = $claim['id'];
     echo json_encode($response);
 } catch (DomainException $ex) {
-    header('HTTP/1.0 401 Unauthorized');
+    header_status(401);
     echo "Invalid token";
     exit();
 }
