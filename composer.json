@@ -1,6 +1,7 @@
 {
-    "require":{
-	"phpmailer/phpmailer": "dev-master",
-        "firebase/php-jwt": "dev-master"
+    "require": {
+        "phpmailer/phpmailer": "dev-master",
+        "firebase/php-jwt": "dev-master",
+        "vlucas/phpdotenv": "dev-master"
     }
 }

@@ -1,0 +1,93 @@
+<div>
+    <div class="container">
+        <h1 class="header">{{header}}</h1>
+        <div class="row">
+            <div class="col s12 m6 l6 push-m3 push-l3">
+
+                <div ng-if="recovery_screen == false">
+                    <!--Login Form-->
+                    <div ng-hide="forgotPassword">
+                        <form class="col s12" ng-submit="login(user)">
+                            <div class="row">
+                                <input-field class="input-field col s11">
+                                    <input id="email" type="email" class="validate" required="true"
+                                           ng-model="user.email">
+                                    <label for="email" data-error="Invalid Email Format" data-success="Valid Email">Email</label>
+                                </input-field>
+                            </div>
+                            <div class="row">
+                                <input-field class="input-field col s12">
+                                    <a ng-click="toggleShowPassword()" class="right col s1 red-text"><i
+                                            class="{{passIcon}} small"></i></a>
+                                    <input id="password" type="{{passType}}" class="validate col s11" required="true"
+                                           ng-model="user.password">
+                                    <label for="password">Password</label>
+                                </input-field>
+
+                            </div>
+                            <div class="row center">
+                                <button class="btn waves-effect waves-light teal" type="submit">Login
+                                    <i class="mdi-content-send right"></i>
+                                </button>
+                            </div>
+                        </form>
+
+                        <a class="right red-text" ng-click="toggleForgotPass()">Forgot Password</a>
+                    </div>
+
+                    <!--Recovery Password Section-->
+                    <div ng-show="forgotPassword">
+                        <form class="col s12" ng-submit="recoverPassword(recovery)">
+                            <div class="row">
+                                <input-field class="input-field col s11">
+                                    <input id="forgot_email" type="email" class="validate" required="true"
+                                           ng-model="recovery.email">
+                                    <label for="forgot_email">Email</label>
+                                </input-field>
+                            </div>
+                            <div class="row center">
+                                <button class="btn waves-effect waves-light teal" type="submit">Send Recovery Mail
+                                    <i class="mdi-content-send right"></i>
+                                </button>
+                            </div>
+                        </form>
+
+                        <a class="right red-text" ng-click="toggleForgotPass()"><i
+                                class="mdi-hardware-keyboard-backspace"></i>Go Back</a>
+
+                    </div>
+                </div>
+                <div ng-if="recovery_screen==true">
+                    <form class="col s12" ng-submit="updatePassword(new)">
+                        <div class="row">
+                            <input-field class="input-field col s11">
+                                <input id="new_password" type="password" class="validate" required="true"
+                                       ng-model="new.password">
+                                <label for="new_password">New Password</label>
+                            </input-field>
+                        </div>
+                        <div class="row">
+                            <input-field class="input-field col s12">
+                                <input id="confirm_new_password" type="password" class="validate col s11"
+                                       required="true"
+                                       ng-model="new.cpassword">
+                                <label for="confirm_new_password">Confirm Password</label>
+                            </input-field>
+
+                        </div>
+                        <div class="row center">
+                            <button class="btn waves-effect waves-light teal" type="submit">Update Password
+                                <i class="mdi-content-send right"></i>
+                            </button>
+                        </div>
+                    </form>
+                    <a class="right red-text" ui-sref="auth({type: 'login',email:null, value: null})"><i
+                            class="mdi-hardware-keyboard-backspace"></i>Login</a>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>

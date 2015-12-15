@@ -16,23 +16,23 @@ module.exports = function (grunt) {
         // all of our configuration will go here
         watch: {
             coffee_compiler: {
-                files: ['./public/frontend/src/coffee/**/*.coffee', './public/admin/src/coffee/**/*.coffee'],
+                files: ['./frontend/src/coffee/**/*.coffee', './admin/src/coffee/**/*.coffee'],
                 tasks: ['coffee']
             },
             concat: {
-                files: ['./public/frontend/src/js/**/*.js', './public/admin/src/js/**/*.js'],
+                files: ['./frontend/src/js/**/*.js', './admin/src/js/**/*.js'],
                 tasks: ['concat']
             },
             minify_js: {
-                files: ['./public/frontend/src/js/**/*.js', './public/admin/src/js/**/*.js'],
+                files: ['./frontend/src/js/**/*.js', './admin/src/js/**/*.js'],
                 tasks: ['uglify']
             },
             minify_css: {
-                files: ['./public/frontend/src/css/**/*.css', './public/admin/src/css/**/*.css'],
+                files: ['./frontend/src/css/**/*.css', './admin/src/css/**/*.css'],
                 tasks: ['cssmin']
             },
             minify_html: {
-                files: ['./public/frontend/src/views/**/*.html', './public/admin/src/views/**/*.html'],
+                files: ['./frontend/src/views/**/*.html', './admin/src/views/**/*.html'],
                 tasks: ['htmlmin']
             }
         },
@@ -40,16 +40,16 @@ module.exports = function (grunt) {
             build: {
                 files: [{
                     expand: true,
-                    cwd: "./public/frontend/src/coffee",
+                    cwd: "./frontend/src/coffee",
                     src: ["**/*.coffee"],
-                    dest: "./public/frontend/src/js",
+                    dest: "./frontend/src/js",
                     ext: ".js"
                 },
                     {
                         expand: true,
-                        cwd: "./public/admin/src/coffee",
+                        cwd: "./admin/src/coffee",
                         src: ["**/*.coffee"],
-                        dest: "./public/admin/src/js",
+                        dest: "./admin/src/js",
                         ext: ".js"
                     }]
             }
@@ -60,8 +60,8 @@ module.exports = function (grunt) {
             },
             build: {
                 files: {
-                    './public/frontend/dist/js/main.min.js': ['./public/frontend/src/js/main.js'],
-                    './public/admin/dist/js/main.min.js': ['./public/admin/src/js/main.js']
+                    './frontend/dist/js/main.min.js': ['./frontend/src/js/main.js'],
+                    './admin/dist/js/main.min.js': ['./admin/src/js/main.js']
                 }
             }
         },
@@ -69,15 +69,15 @@ module.exports = function (grunt) {
             build: {
                 files: [{
                     expand: true,
-                    cwd: './public/frontend/src/css',
+                    cwd: './frontend/src/css',
                     src: ['*.css', '!*.min.css'],
-                    dest: './public/frontend/dist/css',
+                    dest: './frontend/dist/css',
                     ext: '.min.css'
                 }, {
                     expand: true,
-                    cwd: './public/admin/src/css',
+                    cwd: './admin/src/css',
                     src: ['*.css', '!*.min.css'],
-                    dest: './public/admin/dist/css',
+                    dest: './admin/dist/css',
                     ext: '.min.css'
                 }]
             }
@@ -90,11 +90,11 @@ module.exports = function (grunt) {
             },
             target: {
                 files: [{
-                    src: ['./public/frontend/src/js/**/*.js', '!./public/frontend/src/js/main.js'],
-                    dest: './public/frontend/src/js/main.js'
+                    src: ['./frontend/src/js/**/*.js', '!./frontend/src/js/main.js'],
+                    dest: './frontend/src/js/main.js'
                 }, {
-                    src: ['./public/admin/src/js/**/*.js', '!./public/admin/src/js/main.js'],
-                    dest: './public/admin/src/js/main.js'
+                    src: ['./admin/src/js/**/*.js', '!./admin/src/js/main.js'],
+                    dest: './admin/src/js/main.js'
                 }]
             }
         },
@@ -107,14 +107,14 @@ module.exports = function (grunt) {
                 },
                 files: [{
                     expand: true,
-                    cwd: './public/frontend/src/views',
+                    cwd: './frontend/src/views',
                     src: '**/*.html',
-                    dest: './public/frontend/dist/views'
+                    dest: './frontend/dist/views'
                 }, {
                     expand: true,
-                    cwd: './public/admin/src/views',
+                    cwd: './admin/src/views',
                     src: '**/*.html',
-                    dest: './public/admin/dist/views'
+                    dest: './admin/dist/views'
                 }]
             }
         }
