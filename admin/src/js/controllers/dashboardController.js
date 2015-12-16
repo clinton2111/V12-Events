@@ -3,7 +3,10 @@
     '$scope', '$state', '$auth', '$localStorage', function($scope, $state, $auth, $localStorage) {
       var payload;
       $scope.$on('$viewContentLoaded', function() {
-        return $(".button-collapse").sideNav();
+        return $(".button-collapse").sideNav({
+          menuWidth: 300,
+          closeOnClick: true
+        });
       });
       payload = $auth.getPayload();
       $scope.username = payload.name;

@@ -1,4 +1,5 @@
-angular.module 'V12Admin', ['ui.router', 'V12Admin.authentication', 'angular-md5', 'satellizer', 'ngStorage','V12Admin.dashBoardCtrl']
+angular.module 'V12Admin', ['ui.router', 'V12Admin.authentication', 'angular-md5', 'satellizer', 'ngStorage',
+                            'V12Admin.dashBoardCtrl', 'ngFileUpload']
 .config ['$stateProvider', '$urlRouterProvider', '$httpProvider', '$locationProvider', '$authProvider', 'API',
   ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, $authProvider, API)->
     $stateProvider
@@ -16,6 +17,12 @@ angular.module 'V12Admin', ['ui.router', 'V12Admin.authentication', 'angular-md5
     .state 'dashboard.home',
       url: ''
       templateUrl: '/admin/src/views/dashboardHome.html'
+      data:
+        requiresLogin: true
+    .state 'dashboard.photos',
+      url: '/photos'
+      templateUrl: '/admin/src/views/dashboardPhotos.html'
+      controller: 'dashBoardPhotosController'
       data:
         requiresLogin: true
 

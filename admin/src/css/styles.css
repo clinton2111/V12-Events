@@ -1,9 +1,19 @@
 .nav-bg {
     background-image: url(../../../assets/nav-bg.png);
-    height: 350px
+    display:block;
+    overflow:auto;
+    background-size: cover
 
 }
 
 .navpic {
-    padding-top: 20px
+    padding-top: 20px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.nav-bar-name {
+    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.20);
+
 }

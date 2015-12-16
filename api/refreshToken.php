@@ -32,8 +32,10 @@ try {
     $response['name'] = $claim['name'];
     $response['id'] = $claim['id'];
     echo json_encode($response);
-} catch (DomainException $ex) {
+} catch (DomainException $e) {
     header_status(401);
-    echo "Invalid token";
-    exit();
+    $response['status'] = 'Error';
+    $response['message'] = $e->getMessage();
+    echo json_encode($response);
+    die();
 }

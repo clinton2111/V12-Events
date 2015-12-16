@@ -1,19 +1,25 @@
 <div>
-    <nav class="teal darken-2">
-        <div class="nav-wrapper container"><a id="logo-container" class="brand-logo thin">V12 Events Admin Dashboard</a>
+    <nav class="blue-grey darken-2">
+        <div class="nav-wrapper container"><a href="#" data-activates="slide-out" class="button-collapse show-on-large"><i
+                class="mdi-navigation-menu"></i></a><a id="logo-container" class="brand-logo thin">V12 Events Admin
+            Dashboard</a>
 
-            <div class="container"><a href="#" data-activates="slide-out" class="button-collapse"><i
-                    class="mdi-navigation-menu"></i></a>
-                <ul id="slide-out" class="side-nav fixed">
-                    <li class="avatar nav-bg">
-                        <div class="center navpic "><img ng-src=../../../assets/contacts.png class="circle"
-                                                         style="width: 100%">
+            <div class="container">
+                <ul id="slide-out" class="side-nav  ">
+                    <li class="avatar nav-bg no-padding">
+                        <div class="center navpic ">
+                            <img ng-src=../../../assets/contacts.png class="circle"
+                                 style="width: 100%">
 
-                            <p class="flow-text center">Hi {{username}}</p></div>
+
+                        </div>
+                        <div class="nav-bar-name"><p class="center white-text ">Hi {{username}}</p></div>
+
+
                     </li>
                     <li><a ui-sref="dashboard.home" class="waves-effect waves-light"><i
                             class="material-icons left">home</i>Home</a></li>
-                    <li><a ui-sref="#" class="waves-effect waves-light"><i class="material-icons left">photo_library</i>Photos</a>
+                    <li><a ui-sref="dashboard.photos" class="waves-effect waves-light"><i class="material-icons left">photo_library</i>Photos</a>
                     </li>
                     <li><a ui-sref="#" class="waves-effect waves-light"><i
                             class="material-icons left">video_library</i>Videos</a></li>

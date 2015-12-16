@@ -1,5 +1,5 @@
-/*! v12events - v1.0.0 - 2015-12-15 */(function() {
-  angular.module('V12Admin', ['ui.router', 'V12Admin.authentication', 'angular-md5', 'satellizer', 'ngStorage', 'V12Admin.dashBoardCtrl']).config([
+/*! v12events - v1.0.0 - 2015-12-16 */(function() {
+  angular.module('V12Admin', ['ui.router', 'V12Admin.authentication', 'angular-md5', 'satellizer', 'ngStorage', 'V12Admin.dashBoardCtrl', 'ngFileUpload']).config([
     '$stateProvider', '$urlRouterProvider', '$httpProvider', '$locationProvider', '$authProvider', 'API', function($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, $authProvider, API) {
       $stateProvider.state('auth', {
         url: '/auth/:type/:email/:value',
@@ -16,6 +16,13 @@
       }).state('dashboard.home', {
         url: '',
         templateUrl: '/admin/src/views/dashboardHome.html',
+        data: {
+          requiresLogin: true
+        }
+      }).state('dashboard.photos', {
+        url: '/photos',
+        templateUrl: '/admin/src/views/dashboardPhotos.html',
+        controller: 'dashBoardPhotosController',
         data: {
           requiresLogin: true
         }
@@ -184,7 +191,10 @@
     '$scope', '$state', '$auth', '$localStorage', function($scope, $state, $auth, $localStorage) {
       var payload;
       $scope.$on('$viewContentLoaded', function() {
-        return $(".button-collapse").sideNav();
+        return $(".button-collapse").sideNav({
+          menuWidth: 300,
+          closeOnClick: true
+        });
       });
       payload = $auth.getPayload();
       $scope.username = payload.name;
@@ -197,6 +207,31 @@
           value: null
         });
         return Materialize.toast('You have been logged out', 4000);
+      };
+    }
+  ]);
+
+}).call(this);
+
+(function() {
+  angular.module('V12Admin.dashBoardCtrl').controller('dashBoardPhotosController', [
+    '$scope', 'dashBoardPhotosService', function($scope, dashBoardPhotosService) {
+      $scope.$on('$viewContentLoaded', function() {
+        return $('.modal-trigger').leanModal();
+      });
+      return $scope.uploadPhoto = function(pic) {
+        return dashBoardPhotosService.uploadPhoto(pic).then(function(data) {
+          var response;
+          response = data.data;
+          if (response.status === 'Success') {
+            $scope.pic = {};
+            return Materialize.toast(response.status + " - " + response.message, 4000);
+          } else {
+            return Materialize.toast(response.status + " - " + response.message, 4000);
+          }
+        }, function(error) {
+          return Materialize.toast('Something went wrong', 4000);
+        });
       };
     }
   ]);
@@ -232,6 +267,37 @@
             method: 'POST',
             data: passwordData,
             skipAuthorization: true
+          }).then(function(data) {
+            return q.resolve(data);
+          }, function(error) {
+            return q.reject(error);
+          });
+          return q.promise;
+        }
+      };
+    }
+  ]);
+
+}).call(this);
+
+(function() {
+  angular.module('V12Admin.dashBoardCtrl').factory('dashBoardPhotosService', [
+    '$http', '$q', 'API', 'Upload', function($http, $q, API, Upload) {
+      return {
+        uploadPhoto: function(picData) {
+          var q;
+          q = $q.defer();
+          Upload.upload({
+            url: API.url + 'photoHandler.php',
+            data: {
+              caption: picData.Caption,
+              location: 'photos_insert'
+            },
+            method: 'POST',
+            headers: {
+              'Content-Type': picData.File.type
+            },
+            file: picData.File
           }).then(function(data) {
             return q.resolve(data);
           }, function(error) {

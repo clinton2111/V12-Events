@@ -2,7 +2,9 @@ angular.module 'V12Admin.dashBoardCtrl', []
 .controller 'dashBoardController', ['$scope', '$state', '$auth', '$localStorage',($scope, $state, $auth,$localStorage)->
   $scope.$on('$viewContentLoaded', ()->
     $ ".button-collapse"
-    .sideNav()
+    .sideNav
+        menuWidth: 300
+        closeOnClick: true
   );
   payload = $auth.getPayload()
   $scope.username = payload.name
