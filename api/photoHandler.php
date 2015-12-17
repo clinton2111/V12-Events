@@ -23,12 +23,16 @@ $JWT = new JWT;
 try {
     $decoded_token = $JWT->decode($header, $key, array($alg));
     if ($contentHeaders[0] != 'multipart/form-data') {
-//        if ($data->location === 'photos') {
-//            insertPhotos($data);
-//        }
+        if ($data->location === 'fetch_photos') {
+            fetchPhotos($data, $db);
+        } elseif ($data->location === 'update_caption') {
+            updateCaption($data, $db);
+        } elseif ($data->location === 'delete_photo') {
+            deletePhoto($data, $db);
+        }
     } elseif ($contentHeaders[0] == 'multipart/form-data') {
         $data = json_decode($_POST['data']);
-        if ($data->location === 'photos_insert') {
+        if ($data->location === 'insert_photos') {
             insertPhotos($data, $db);
         }
     }
@@ -128,4 +132,138 @@ function insertPhotos($data, $db)
         die();
     }
 
+}
+
+function fetchPhotos($data, $db)
+{
+    $response = array();
+
+    try {
+        $resultArray = array();
+        $fetch_photos = "SELECT id,caption,image_name FROM photos LIMIT 5 OFFSET ?";
+        $fetch_photos_stmt = $db->stmt_init();
+        if (!$fetch_photos_stmt->prepare($fetch_photos)) {
+            header_status(500);
+            $response['status'] = 'Error';
+            $response['message'] = $fetch_photos_stmt->error;
+            echo json_encode($response);
+            die();
+        } else {
+            $fetch_photos_stmt->bind_param('s', $data->offset);
+
+            if ($fetch_photos_stmt->execute()) {
+                $result = $fetch_photos_stmt->get_result();
+                $count = $result->num_rows;
+                if ($count > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        $resultArray[] = $row;
+                    }
+                    header_status(200);
+                    $response['status'] = 'Success';
+                    $response['message'] = 'Data present';
+                    $response['results'] = $resultArray;
+
+                } else {
+                    header_status(204);
+                    $response['status'] = 'Error';
+                    $response['message'] = 'No Photos found';
+                }
+            } else {
+                header_status(503);
+                $response['status'] = 'Error';
+                $response['message'] = 'Photo fetch failed';
+            }
+        }
+        echo json_encode($response);
+    } catch (Exception $e) {
+        header_status(503);
+        $response['status'] = 'Error';
+        $response['message'] = $e->getMessage();
+        echo json_encode($response);
+        die();
+    }
+
+}
+
+function updateCaption($data, $db)
+{
+    $response = array();
+
+    try {
+
+        $update_cation = "UPDATE photos SET caption=? WHERE id=?";
+        $update_cation_stmt = $db->stmt_init();
+        if (!$update_cation_stmt->prepare($update_cation)) {
+            header_status(500);
+            $response['status'] = 'Error';
+            $response['message'] = $update_cation_stmt->error;
+            echo json_encode($response);
+            die();
+        } else {
+            $update_cation_stmt->bind_param('si', $db->real_escape_string($data->caption), $data->id);
+
+            if ($update_cation_stmt->execute()) {
+                header_status(200);
+                $response['status'] = 'Success';
+                $response['message'] = 'Caption Updated';
+
+            } else {
+                header_status(503);
+                $response['status'] = 'Error';
+                $response['message'] = 'Update Caption failed';
+            }
+        }
+        echo json_encode($response);
+    } catch (Exception $e) {
+        header_status(503);
+        $response['status'] = 'Error';
+        $response['message'] = $e->getMessage();
+        echo json_encode($response);
+        die();
+    }
+}
+
+function deletePhoto($data, $db)
+{
+    $response = array();
+
+    try {
+        $filename = $data->name;
+        $delete_photo = "DELETE FROM photos WHERE id=?";
+        $delete_photo_stmt = $db->stmt_init();
+        if (!$delete_photo_stmt->prepare($delete_photo)) {
+            header_status(500);
+            $response['status'] = 'Error';
+            $response['message'] = $delete_photo_stmt->error;
+            echo json_encode($response);
+            die();
+        } else {
+            $delete_photo_stmt->bind_param('i', $data->id);
+
+            if ($delete_photo_stmt->execute()) {
+
+                if (file_exists("../assets/photos/$filename")) {
+                    unlink("../assets/photos/$filename");
+                }
+                if (file_exists("../assets/thumbnails/$filename")) {
+                    unlink("../assets/thumbnails/$filename");
+                }
+                header_status(200);
+                $response['status'] = 'Success';
+                $response['message'] = 'Photo Deleted';
+
+            } else {
+                header_status(503);
+                $response['status'] = 'Error';
+                $response['message'] = 'Photo Deletion failed';
+            }
+        }
+        echo json_encode($response);
+    } catch (Exception $e) {
+        header_status(503);
+        $response['status'] = 'Error';
+        $response['message'] = $e->getMessage();
+        echo json_encode($response);
+        die();
+    }
 }

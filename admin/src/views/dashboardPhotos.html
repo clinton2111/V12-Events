@@ -1,8 +1,28 @@
-<div>
+<div ng-init="fetchPhotos(0)">
     <div class="container">
         <h1 class="header red-text thin">Photos</h1>
 
         <div class="section">
+            <div class="row">
+                <div class="col s6 m3 l3" ng-repeat="photo in photos">
+                    <div class="card medium z-depth-3">
+                        <div class="card-image ">
+                            <img class="responsive-img" ng-src="{{picPaths.thumbnails+photo.image_name}}">
+                            <!--<img src='../assets/images/loading.svg'-->
+                            <!--lazy-img="{{picUrl.photo+photo.photo_image}}" class="responsive-img">-->
+                        </div>
+                        <div class="card-content">
+                            <p>{{photo.caption}}</p>
+                        </div>
+                        <div class="card-action">
+                            <a ng-click="openCaptionModal(photo.id)" class="amber-text">Edit Caption</a>
+                            <a ng-click="deletePhoto(photo.id)" class="amber-text">Delete</a>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
 
 
             <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
@@ -50,6 +70,25 @@
             </div>
         </form>
 
+    </div>
+    <div id="updateCaption" class="modal">
+        <div class="modal-content">
+            <h4>Enter new Caption</h4>
+
+            <div class="row">
+                <div class="input-field col s12">
+                    <input ng-model="currentPic.Caption" id="new_caption" type="text" class="validate">
+                    <label class="active" for="new_caption">Caption</label>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+
+            <a ng-click="updateCaption(currentPic.Id)"
+               class=" modal-action modal-close waves-effect waves-light btn-flat">Update Caption</a>
+            <a  class=" modal-action modal-close waves-effect waves-light btn-flat">Cancel</a>
+
+        </div>
     </div>
 
 </div>

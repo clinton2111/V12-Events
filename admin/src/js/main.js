@@ -1,27 +1,27 @@
-/*! v12events - v1.0.0 - 2015-12-16 */(function() {
+/*! v12events - v1.0.0 - 2015-12-17 */(function() {
   angular.module('V12Admin', ['ui.router', 'V12Admin.authentication', 'angular-md5', 'satellizer', 'ngStorage', 'V12Admin.dashBoardCtrl', 'ngFileUpload']).config([
     '$stateProvider', '$urlRouterProvider', '$httpProvider', '$locationProvider', '$authProvider', 'API', function($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, $authProvider, API) {
       $stateProvider.state('auth', {
         url: '/auth/:type/:email/:value',
-        templateUrl: '/admin/src/views/auth.html',
+        templateUrl: API.views + 'auth.html',
         controller: 'authController'
       }).state('dashboard', {
         url: '/dashboard',
         abstract: true,
-        templateUrl: '/admin/src/views/dashboard.html',
+        templateUrl: API.views + 'dashboard.html',
         controller: 'dashBoardController',
         data: {
           requiresLogin: true
         }
       }).state('dashboard.home', {
         url: '',
-        templateUrl: '/admin/src/views/dashboardHome.html',
+        templateUrl: API.views + 'dashboardHome.html',
         data: {
           requiresLogin: true
         }
       }).state('dashboard.photos', {
         url: '/photos',
-        templateUrl: '/admin/src/views/dashboardPhotos.html',
+        templateUrl: API.views + 'dashboardPhotos.html',
         controller: 'dashBoardPhotosController',
         data: {
           requiresLogin: true
@@ -34,7 +34,8 @@
       return $authProvider.tokenPrefix = 'v12events';
     }
   ]).constant('API', {
-    url: '../api/'
+    url: '../api/',
+    views: '/admin/src/views/'
   }).run([
     '$rootScope', '$state', '$http', 'API', '$q', '$auth', '$localStorage', function($rootScope, $state, $http, API, $q, $auth, $localStorage) {
       return $rootScope.$on('$stateChangeStart', function(e, to) {
@@ -216,15 +217,80 @@
 (function() {
   angular.module('V12Admin.dashBoardCtrl').controller('dashBoardPhotosController', [
     '$scope', 'dashBoardPhotosService', function($scope, dashBoardPhotosService) {
+      var offset;
       $scope.$on('$viewContentLoaded', function() {
         return $('.modal-trigger').leanModal();
       });
-      return $scope.uploadPhoto = function(pic) {
+      offset = 0;
+      $scope.photos = [];
+      $scope.picPaths = {
+        main_image: '../assets/photos/',
+        thumbnails: '../assets/thumbnails/'
+      };
+      $scope.fetchPhotos = function(offset) {
+        if (offset === 0) {
+          $scope.photos = [];
+        }
+        return dashBoardPhotosService.fetchPhotos(offset).then(function(data) {
+          var response;
+          if (data.status === 204) {
+            return Materialize.toast('No Content', 4000);
+          } else {
+            response = data.data;
+            return $scope.photos = response.results;
+          }
+        }, function(error) {
+          return Materialize.toast('Something went wrong', 4000);
+        });
+      };
+      $scope.loadMore = function() {
+        offset = $scope.photos.length;
+        return $scope.fetchPhotos(offset);
+      };
+      $scope.openCaptionModal = function(id) {
+        var caption, index;
+        index = _.findIndex($scope.photos, {
+          id: id
+        });
+        caption = $scope.photos[index].caption;
+        if (caption === "") {
+          caption = null;
+        }
+        $scope.currentPic = {
+          Caption: caption,
+          Id: id
+        };
+        return $('#updateCaption').openModal();
+      };
+      $scope.deletePhoto = function(id) {
+        var data, index;
+        index = _.findIndex($scope.photos, {
+          id: id
+        });
+        data = {
+          id: id,
+          name: $scope.photos[index].image_name
+        };
+        return dashBoardPhotosService.deletePhoto(data).then(function(data) {
+          var response;
+          response = data.data;
+          $scope.photos.splice(index, 1);
+          return Materialize.toast(response.status + " - " + response.message, 4000);
+        }, function(error) {
+          return Materialize.toast('Something went wrong', 4000);
+        });
+      };
+      $scope.uploadPhoto = function(pic) {
         return dashBoardPhotosService.uploadPhoto(pic).then(function(data) {
           var response;
           response = data.data;
           if (response.status === 'Success') {
-            $scope.pic = {};
+            $scope.photos.unshift({
+              id: response.id,
+              caption: pic.Caption,
+              photo_image: response.imageName
+            });
+            $scope.pic = angular.copy({});
             return Materialize.toast(response.status + " - " + response.message, 4000);
           } else {
             return Materialize.toast(response.status + " - " + response.message, 4000);
@@ -233,6 +299,32 @@
           return Materialize.toast('Something went wrong', 4000);
         });
       };
+      $scope.updateCaption = function(id) {
+        var data, index, new_caption;
+        index = _.findIndex($scope.photos, {
+          id: id
+        });
+        new_caption = $scope.currentPic.Caption;
+        data = {
+          caption: new_caption,
+          id: id
+        };
+        return dashBoardPhotosService.updateCaption(data).then(function(data) {
+          var response;
+          response = data.data;
+          if (response.status === 'Success') {
+            $scope.photos[index].caption = new_caption;
+            return Materialize.toast(response.status + " - " + response.message, 4000);
+          } else {
+            return Materialize.toast(response.status + " - " + response.message, 4000);
+          }
+        }, function(error) {
+          return Materialize.toast('Something went wrong', 4000);
+        });
+      };
+      return $scope.$watchCollection(['photos', 'gigs'], function() {
+        return $scope.$apply;
+      }, false);
     }
   ]);
 
@@ -284,6 +376,24 @@
   angular.module('V12Admin.dashBoardCtrl').factory('dashBoardPhotosService', [
     '$http', '$q', 'API', 'Upload', function($http, $q, API, Upload) {
       return {
+        fetchPhotos: function(offset) {
+          var q;
+          q = $q.defer();
+          $http({
+            url: API.url + 'photoHandler.php',
+            data: {
+              'location': 'fetch_photos',
+              'offset': offset
+            },
+            method: 'post',
+            cache: true
+          }).then(function(data) {
+            return q.resolve(data);
+          }, function(error) {
+            return q.reject(error);
+          });
+          return q.promise;
+        },
         uploadPhoto: function(picData) {
           var q;
           q = $q.defer();
@@ -291,13 +401,43 @@
             url: API.url + 'photoHandler.php',
             data: {
               caption: picData.Caption,
-              location: 'photos_insert'
+              location: 'insert_photos'
             },
             method: 'POST',
             headers: {
               'Content-Type': picData.File.type
             },
             file: picData.File
+          }).then(function(data) {
+            return q.resolve(data);
+          }, function(error) {
+            return q.reject(error);
+          });
+          return q.promise;
+        },
+        updateCaption: function(data) {
+          var q;
+          data.location = 'update_caption';
+          q = $q.defer();
+          $http({
+            url: API.url + 'photoHandler.php',
+            data: data,
+            method: 'post'
+          }).then(function(data) {
+            return q.resolve(data);
+          }, function(error) {
+            return q.reject(error);
+          });
+          return q.promise;
+        },
+        deletePhoto: function(data) {
+          var q;
+          data.location = 'delete_photo';
+          q = $q.defer();
+          $http({
+            url: API.url + 'photoHandler.php',
+            data: data,
+            method: 'post'
           }).then(function(data) {
             return q.resolve(data);
           }, function(error) {

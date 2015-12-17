@@ -3,25 +3,25 @@
     '$stateProvider', '$urlRouterProvider', '$httpProvider', '$locationProvider', '$authProvider', 'API', function($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, $authProvider, API) {
       $stateProvider.state('auth', {
         url: '/auth/:type/:email/:value',
-        templateUrl: '/admin/src/views/auth.html',
+        templateUrl: API.views + 'auth.html',
         controller: 'authController'
       }).state('dashboard', {
         url: '/dashboard',
         abstract: true,
-        templateUrl: '/admin/src/views/dashboard.html',
+        templateUrl: API.views + 'dashboard.html',
         controller: 'dashBoardController',
         data: {
           requiresLogin: true
         }
       }).state('dashboard.home', {
         url: '',
-        templateUrl: '/admin/src/views/dashboardHome.html',
+        templateUrl: API.views + 'dashboardHome.html',
         data: {
           requiresLogin: true
         }
       }).state('dashboard.photos', {
         url: '/photos',
-        templateUrl: '/admin/src/views/dashboardPhotos.html',
+        templateUrl: API.views + 'dashboardPhotos.html',
         controller: 'dashBoardPhotosController',
         data: {
           requiresLogin: true
@@ -34,7 +34,8 @@
       return $authProvider.tokenPrefix = 'v12events';
     }
   ]).constant('API', {
-    url: '../api/'
+    url: '../api/',
+    views: '/admin/src/views/'
   }).run([
     '$rootScope', '$state', '$http', 'API', '$q', '$auth', '$localStorage', function($rootScope, $state, $http, API, $q, $auth, $localStorage) {
       return $rootScope.$on('$stateChangeStart', function(e, to) {

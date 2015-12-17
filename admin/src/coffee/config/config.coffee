@@ -5,23 +5,23 @@ angular.module 'V12Admin', ['ui.router', 'V12Admin.authentication', 'angular-md5
     $stateProvider
     .state 'auth',
       url: '/auth/:type/:email/:value'
-      templateUrl: '/admin/src/views/auth.html'
+      templateUrl: API.views + 'auth.html'
       controller: 'authController'
     .state 'dashboard',
       url: '/dashboard'
       abstract: true
-      templateUrl: '/admin/src/views/dashboard.html'
+      templateUrl: API.views + 'dashboard.html'
       controller: 'dashBoardController'
       data:
         requiresLogin: true
     .state 'dashboard.home',
       url: ''
-      templateUrl: '/admin/src/views/dashboardHome.html'
+      templateUrl: API.views + 'dashboardHome.html'
       data:
         requiresLogin: true
     .state 'dashboard.photos',
       url: '/photos'
-      templateUrl: '/admin/src/views/dashboardPhotos.html'
+      templateUrl: API.views + 'dashboardPhotos.html'
       controller: 'dashBoardPhotosController'
       data:
         requiresLogin: true
@@ -36,11 +36,13 @@ angular.module 'V12Admin', ['ui.router', 'V12Admin.authentication', 'angular-md5
     $authProvider.loginUrl = API.url + 'auth.php'
     $authProvider.tokenPrefix = 'v12events'
 
+
 ]
 
 
 .constant 'API',
   url: '../api/'
+  views: '/admin/src/views/'
 
 .run ['$rootScope', '$state', '$http', 'API', '$q', '$auth', '$localStorage',
   ($rootScope, $state, $http, API, $q, $auth, $localStorage)->
