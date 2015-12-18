@@ -1,4 +1,4 @@
-/*! v12events - v1.0.0 - 2015-12-17 */(function() {
+/*! v12events - v1.0.0 - 2015-12-18 */(function() {
   angular.module('V12Events', ['ui.router', 'v12events.main', 'duScroll']).config([
     '$stateProvider', '$urlRouterProvider', '$locationProvider', function($stateProvider, $urlRouterProvider, $locationProvider) {
       $locationProvider.html5Mode(true);

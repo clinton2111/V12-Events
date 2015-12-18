@@ -26,6 +26,7 @@
     "underscore": "~1.8.3",
     "angular-md5": "~0.1.10",
     "ngstorage": "~0.3.10",
-    "ng-file-upload": "4.2.1"
+    "ng-file-upload": "4.2.1",
+    "lightbox2": "~2.8.2"
   }
 }

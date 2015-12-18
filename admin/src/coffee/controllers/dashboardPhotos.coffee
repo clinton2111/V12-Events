@@ -14,7 +14,7 @@ angular.module 'V12Admin.dashBoardCtrl'
       if offset is 0 then $scope.photos = []
       dashBoardPhotosService.fetchPhotos(offset)
       .then (data)->
-        if data.status is 204 then Materialize.toast('No Content', 4000);
+        if data.status is 204 then Materialize.toast('No photos to load', 4000);
         else
           response = data.data
           $scope.photos = response.results
@@ -25,16 +25,18 @@ angular.module 'V12Admin.dashBoardCtrl'
       offset = $scope.photos.length
       $scope.fetchPhotos(offset)
 
-    $scope.openCaptionModal = (id)->
+    $scope.openModal = (id,modalType)->
       index = _.findIndex($scope.photos, {id: id});
-      caption = $scope.photos[index].caption;
-      if caption is "" then caption = null
-      $scope.currentPic = {
-        Caption: caption
-        Id: id
-      }
-      $ '#updateCaption'
-      .openModal();
+      if modalType is 'caption'
+        caption = $scope.photos[index].caption;
+        if caption is "" then caption = null
+        $scope.currentPic = {
+          Caption: caption
+          Id: id
+        }
+        $ '#updateCaption'
+        .openModal();
+
 
     $scope.deletePhoto = (id)->
       index = _.findIndex($scope.photos, {id: id});

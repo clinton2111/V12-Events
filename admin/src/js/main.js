@@ -1,4 +1,4 @@
-/*! v12events - v1.0.0 - 2015-12-17 */(function() {
+/*! v12events - v1.0.0 - 2015-12-18 */(function() {
   angular.module('V12Admin', ['ui.router', 'V12Admin.authentication', 'angular-md5', 'satellizer', 'ngStorage', 'V12Admin.dashBoardCtrl', 'ngFileUpload']).config([
     '$stateProvider', '$urlRouterProvider', '$httpProvider', '$locationProvider', '$authProvider', 'API', function($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, $authProvider, API) {
       $stateProvider.state('auth', {
@@ -234,7 +234,7 @@
         return dashBoardPhotosService.fetchPhotos(offset).then(function(data) {
           var response;
           if (data.status === 204) {
-            return Materialize.toast('No Content', 4000);
+            return Materialize.toast('No photos to load', 4000);
           } else {
             response = data.data;
             return $scope.photos = response.results;
@@ -247,20 +247,22 @@
         offset = $scope.photos.length;
         return $scope.fetchPhotos(offset);
       };
-      $scope.openCaptionModal = function(id) {
+      $scope.openModal = function(id, modalType) {
         var caption, index;
         index = _.findIndex($scope.photos, {
           id: id
         });
-        caption = $scope.photos[index].caption;
-        if (caption === "") {
-          caption = null;
+        if (modalType === 'caption') {
+          caption = $scope.photos[index].caption;
+          if (caption === "") {
+            caption = null;
+          }
+          $scope.currentPic = {
+            Caption: caption,
+            Id: id
+          };
+          return $('#updateCaption').openModal();
         }
-        $scope.currentPic = {
-          Caption: caption,
-          Id: id
-        };
-        return $('#updateCaption').openModal();
       };
       $scope.deletePhoto = function(id) {
         var data, index;
