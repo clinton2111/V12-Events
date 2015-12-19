@@ -26,6 +26,13 @@
         data: {
           requiresLogin: true
         }
+      }).state('dashboard.testimonials', {
+        url: '/testimonials',
+        templateUrl: API.views + 'dashboardTestimonials.html',
+        controller: 'dashBoardTestimonialsController',
+        data: {
+          requiresLogin: true
+        }
       });
       $urlRouterProvider.otherwise('/auth');
       $urlRouterProvider.when('dashboard', 'dashboard.home');

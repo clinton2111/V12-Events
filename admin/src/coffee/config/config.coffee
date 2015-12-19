@@ -25,12 +25,12 @@ angular.module 'V12Admin', ['ui.router', 'V12Admin.authentication', 'angular-md5
       controller: 'dashBoardPhotosController'
       data:
         requiresLogin: true
-#    .state 'dashboard.testimonials',
-#      url: '/photos'
-#      templateUrl: API.views + 'dashboardTestimonials.html'
-#      controller: 'dashBoardTestimonialsController'
-#      data:
-#        requiresLogin: true
+    .state 'dashboard.testimonials',
+      url: '/testimonials'
+      templateUrl: API.views + 'dashboardTestimonials.html'
+      controller: 'dashBoardTestimonialsController'
+      data:
+        requiresLogin: true
 
 
     $urlRouterProvider.otherwise '/auth'

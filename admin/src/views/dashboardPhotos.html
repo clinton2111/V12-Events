@@ -77,15 +77,18 @@
                 </div>
 
             </div>
-            <div ng-show="!photos">
+            <div ng-show="photos.length!=0">
+                <div class="center"><a class="waves-effect waves-light btn blue-grey" ng-click="loadMore()">Load More
+                    Photos</a></div>
+            </div>
+            <div ng-show="photos.length==0">
                 <p class="flow-text">No Photos Found</p>
             </div>
 
-            <div class="center"><a class="waves-effect waves-light btn blue-grey" ng-click="loadMore()">Load More
-                Photos</a></div>
+
             <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
                 <a class="btn-floating btn-large red z-depth-3 modal-trigger" data-target="photoModal">
-                    <i class="large mdi-image-add-to-photos"></i>
+                    <i class="material-icons">add_a_photo</i>
                 </a>
             </div>
 

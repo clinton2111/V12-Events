@@ -140,7 +140,7 @@ function fetchPhotos($data, $db)
 
     try {
         $resultArray = array();
-        $fetch_photos = "SELECT id,caption,image_name FROM photos LIMIT 5 OFFSET ?";
+        $fetch_photos = "SELECT id,caption,image_name FROM photos ORDER BY id DESC LIMIT 5 OFFSET ?";
         $fetch_photos_stmt = $db->stmt_init();
         if (!$fetch_photos_stmt->prepare($fetch_photos)) {
             header_status(500);
