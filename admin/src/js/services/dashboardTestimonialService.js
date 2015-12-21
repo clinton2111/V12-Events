@@ -50,12 +50,30 @@
           });
           return q.promise;
         },
-        deletePhoto: function(data) {
-          var q;
-          data.location = 'delete_photo';
+        deleteTestimonial: function(id) {
+          var data, q;
+          data = {
+            location: 'delete_testimonial',
+            id: id
+          };
           q = $q.defer();
           $http({
-            url: API.url + 'photoHandler.php',
+            url: API.url + 'testimonialHandler.php',
+            data: data,
+            method: 'post'
+          }).then(function(data) {
+            return q.resolve(data);
+          }, function(error) {
+            return q.reject(error);
+          });
+          return q.promise;
+        },
+        updateShowOnSite: function(data) {
+          var q;
+          data.location = 'update_show_on_site';
+          q = $q.defer();
+          $http({
+            url: API.url + 'testimonialHandler.php',
             data: data,
             method: 'post'
           }).then(function(data) {

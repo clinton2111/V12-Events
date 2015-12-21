@@ -88,7 +88,7 @@ angular.module 'V12Admin.dashBoardCtrl'
       , (error)->
         Materialize.toast('Something went wrong', 4000);
 
-    $scope.$watchCollection ['photos', 'gigs'], ()->
+    $scope.$watchCollection ['photos'], ()->
       $scope.$apply
     , false
 

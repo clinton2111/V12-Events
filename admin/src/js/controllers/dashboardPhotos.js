@@ -108,7 +108,7 @@
           return Materialize.toast('Something went wrong', 4000);
         });
       };
-      return $scope.$watchCollection(['photos', 'gigs'], function() {
+      return $scope.$watchCollection(['photos'], function() {
         return $scope.$apply;
       }, false);
     }

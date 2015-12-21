@@ -3,8 +3,8 @@
     <h1 class="header red-text thin">Testimonials</h1>
 
     <div class="section">
-        <div ng-repeat="testimonial in testimonials" ng-if="$index % 4 == 0" class="row col s12 m12 l12">
-            <div class="col s3 m3 l3" ng-if="testimonials[$index]">
+        <div ng-repeat="testimonial in testimonials" ng-if="$index % 3 == 0" class="row col s12 m12 l12">
+            <div class="col s12 m4 l4" ng-if="testimonials[$index]">
 
                 <div class="card blue-grey darken-1">
                     <div class="card-content white-text">
@@ -14,14 +14,21 @@
                         </p>
                     </div>
                     <div class="card-action">
-                        <a ng-click="openModal(testimonials[$index].id,'update_testimonial')">Update</a>
-                        <a>Delete</a>
+                        <a ng-click="openModal(testimonials[$index].id,'update_testimonial')">Edit</a>
+                        <a ng-click="deleteTestimonial(testimonials[$index].id)">Delete</a>
+                            <span class="right-align">
+
+                                    <input type="checkbox" id="show_on_site{{$index}}"
+                                           ng-checked="checkChecked(testimonials[$index].id)" ng-click="updateSoS(testimonials[$index].id)"/>
+                                    <label for="show_on_site{{$index}}" class="amber-text">Show on Site</label>
+
+                            </span>
                     </div>
                 </div>
 
             </div>
 
-            <div class="col s3 m3 l3" ng-if="testimonials[$index+1]">
+            <div class="col s12 m4 l4" ng-if="testimonials[$index+1]">
 
                 <div class="card blue-grey darken-1">
                     <div class="card-content white-text">
@@ -31,14 +38,21 @@
                         </p>
                     </div>
                     <div class="card-action">
-                        <a ng-click="openModal(testimonials[$index+1].id,'update_testimonial')">Update</a>
-                        <a href="#">This is a link</a>
+                        <a ng-click="openModal(testimonials[$index+1].id,'update_testimonial')">Edit</a>
+                        <a ng-click="deleteTestimonial(testimonials[$index +1].id)">Delete</a>
+                            <span class="right-align">
+
+                                    <input type="checkbox" id="show_on_site{{$index+1}}"
+                                           ng-checked="checkChecked(testimonials[$index+1].id)" ng-click="updateSoS(testimonials[$index+1].id)"/>
+                                    <label for="show_on_site{{$index+1}}" class="amber-text">Show on Site</label>
+
+                            </span>
                     </div>
                 </div>
 
             </div>
 
-            <div class="col s3 m3 l3" ng-if="testimonials[$index+2]">
+            <div class="col s12 m4 l4" ng-if="testimonials[$index+2]">
 
                 <div class="card blue-grey darken-1">
                     <div class="card-content white-text">
@@ -48,31 +62,25 @@
                         </p>
                     </div>
                     <div class="card-action">
-                        <a ng-click="openModal(testimonials[$index+2].id,'update_testimonial')">Update</a>
-                        <a href="#">This is a link</a>
+                        <a ng-click="openModal(testimonials[$index+2].id,'update_testimonial')">Edit</a>
+                        <a ng-click="deleteTestimonial(testimonials[$index+2].id)">Delete</a>
+                            <span class="right-align">
+
+                                    <input type="checkbox" id="show_on_site{{$index+2}}"
+                                           ng-checked="checkChecked(testimonials[$index+2].id)" ng-click="updateSoS(testimonials[$index+2].id)"/>
+                                    <label for="show_on_site{{$index+2}}" class="amber-text">Show on Site</label>
+
+                            </span>
+
                     </div>
+
+
                 </div>
 
             </div>
 
-            <div class="col s3 m3 l3" ng-if="testimonials[$index+3]">
 
-                <div class="card blue-grey darken-1">
-                    <div class="card-content white-text">
-                        <blockquote>{{testimonials[$index+3].testimonial}}</blockquote>
-                        <p>{{testimonials[$index+3].testifier_name}}<span
-                                ng-show="testimonials[$index+3].testifier_designation || testimonials[$index+3].testifier_company_name"> - {{testimonials[$index+3].testifier_designation}}, {{testimonials[$index+3].testifier_company_name}}</span>
-                        </p>
-                    </div>
-                    <div class="card-action">
-                        <a ng-click="openModal(testimonials[$index+3].id,'update_testimonial')">Update</a>
-                        <a href="#">This is a link</a>
-                    </div>
-                </div>
-
-            </div>
         </div>
-
 
         <div ng-show="testimonials.length!=0">
             <div class="center"><a class="waves-effect waves-light btn blue-grey" ng-click="loadMore()">Load More
@@ -136,11 +144,11 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="modal-action modal-close btn waves-effect waves-light blue-grey" type="submit">Create
-                    <i class="mdi-file-file-upload right"></i>
+                <button class="modal-action modal-close btn-flat waves-effect waves-light " type="submit">Create
+
                 </button>
-                <button class="modal-action modal-close btn waves-effect waves-light blue-grey">Close
-                    <i class="mdi-navigation-close right"></i>
+                <button class="modal-action modal-close btn-flat waves-effect waves-light ">Close
+
                 </button>
             </div>
         </form>
@@ -181,11 +189,11 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="modal-action modal-close btn-flat waves-effect waves-light " type="submit">Update
+                <button class="modal-action modal-close btn-flat waves-effect waves-light " type="submit">
+                    Update
 
                 </button>
                 <button class="modal-action modal-close btn-flat waves-effect waves-light ">Close
-                    <i class="mdi-navigation-close right"></i>
                 </button>
             </div>
         </form>

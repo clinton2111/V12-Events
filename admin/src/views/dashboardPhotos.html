@@ -4,8 +4,8 @@
 
         <div class="section">
 
-            <div ng-repeat="photo in photos" ng-if="$index % 4 == 0" class="row col s12 m12 l12">
-                <div class="col s3 m3 l3" ng-if="photos[$index]">
+            <div ng-repeat="photo in photos" ng-if="$index % 3 == 0" class="row col s12 m12 l12">
+                <div class="col s12 m4 l4" ng-if="photos[$index]">
                     <div class="card medium z-depth-3">
                         <div class="card-image">
                             <a href="{{picPaths.main_image+photos[$index].image_name}}" data-lightbox="image-1"
@@ -23,7 +23,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col s3 m3 l3" ng-if="photos[$index+1]">
+                <div class="col s12 m4 l4" ng-if="photos[$index+1]">
                     <div class="card medium z-depth-3 ">
                         <div class="card-image">
                             <a href="{{picPaths.main_image+photos[$index+1].image_name}}" data-lightbox="image-1"
@@ -40,7 +40,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col s3 m3 l3" ng-if="photos[$index+2]">
+                <div class="col s12 m4 l4" ng-if="photos[$index+2]">
 
                     <div class="card medium z-depth-3 ">
                         <div class="card-image">
@@ -58,25 +58,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="col s3 m3 l3" ng-if="photos[$index+3]">
-                    <div class="card medium z-depth-3">
-                        <div class="card-image">
-                            <a href="{{picPaths.main_image+photos[$index+3].image_name}}" data-lightbox="image-1"
-                               data-title="{{photos[$index+3].caption}}">
-                                <img src="{{picPaths.thumbnails+photos[$index+3].image_name}}"/></a>
 
-                        </div>
-                        <div class="card-content">
-                            <p>{{photos[$index+3].caption}}</p>
-                        </div>
-                        <div class="card-action">
-                            <a ng-click="openModal(photos[$index+3].id,'caption')" class="amber-text">Edit Caption</a>
-                            <a ng-click="deletePhoto(photos[$index+3].id)" class="amber-text">Delete</a>
-                        </div>
-                    </div>
-                </div>
 
             </div>
+
             <div ng-show="photos.length!=0">
                 <div class="center"><a class="waves-effect waves-light btn blue-grey" ng-click="loadMore()">Load More
                     Photos</a></div>

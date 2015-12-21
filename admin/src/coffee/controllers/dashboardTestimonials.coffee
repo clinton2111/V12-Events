@@ -29,16 +29,18 @@ angular.module 'V12Admin.dashBoardCtrl'
 
     $scope.updateTestimonial = ->
       index = _.findIndex($scope.testimonials, {id: $scope.tempData.id});
-      console.log $scope.tempData
       dashBoardTestimonialService.updateTestimonial($scope.tempData)
       .then (data)->
         response = data.data
         if response.status is 'Success'
-          $scope.testimonials[index] =
-            testimonial: $scope.tempData.testimonial
-            testifier_name: $scope.tempData.testifier_name
-            testifier_designation: $scope.tempData.testifier_designation
-            testifier_company_name: $scope.tempData.testifier_company_name
+          show_on_site = $scope.testimonials[index].show_on_site
+
+          $scope.testimonials[index].testimonial = $scope.tempData.testimonial
+          $scope.testimonials[index].testifier_name = $scope.tempData.testifier_name
+          $scope.testimonials[index].testifier_designation = $scope.tempData.testifier_designation
+          $scope.testimonials[index].testifier_company_name = $scope.tempData.testifier_company_name
+          $scope.testimonials[index].show_on_site = show_on_site
+          console.log $scope.testimonials
           $scope.tempData = {}
           Materialize.toast response.status + " - " + response.message, 4000
         else
@@ -72,5 +74,51 @@ angular.module 'V12Admin.dashBoardCtrl'
           Materialize.toast response.status + " - " + response.message, 4000
       , (error)->
         Materialize.toast('Something went wrong', 4000);
+
+    $scope.checkChecked = (id)->
+      index = _.findIndex($scope.testimonials, {id: id});
+      temp = $scope.testimonials[index].show_on_site
+      if temp is 1
+        'checked'
+      else
+        false
+
+    $scope.updateSoS = (id)->
+      index = _.findIndex($scope.testimonials, {id: id});
+      temp = $scope.testimonials[index].show_on_site
+      if temp is 1 then newSos = 0 else newSos = 1
+
+
+      console.log 'Old SoS =' + temp + " new SoS =" + newSos + " " + id
+
+      dashBoardTestimonialService.updateShowOnSite({id: id, show_on_site: newSos})
+      .then (data)->
+        response = data.data
+        if response.status is 'Success'
+          $scope.testimonials[index].show_on_site = newSos
+        else
+          console.log response.status + " - " + response.message
+      , (error)->
+        Materialize.toast('Something went wrong', 4000);
+
+    $scope.deleteTestimonial = (id)->
+
+      index = _.findIndex($scope.testimonials, {id: id});
+
+
+      dashBoardTestimonialService.deleteTestimonial(id)
+      .then (data)->
+        response = data.data
+
+        $scope.testimonials.splice(index, 1);
+        Materialize.toast response.status + " - " + response.message, 4000
+
+      , (error)->
+        Materialize.toast('Something went wrong', 4000);
+
+    $scope.$watchCollection ['testimonials'], ()->
+      $scope.$apply
+    , false
+
 
 ]

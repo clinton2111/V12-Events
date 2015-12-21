@@ -25,9 +25,12 @@ try {
         insertTestimonial($data, $db);
     } elseif ($data->location === 'fetch_testimonials') {
         fetchTestimonials($data, $db);
-    }
-    if ($data->location === 'update_testimonial') {
+    } elseif ($data->location === 'update_testimonial') {
         updateTestimonial($data, $db);
+    } elseif ($data->location === 'update_show_on_site') {
+        updateShowOnSite($data, $db);
+    } elseif ($data->location === 'delete_testimonial') {
+        deleteTestimonial($data, $db);
     }
 
 } catch (DomainException $e) {
@@ -127,9 +130,7 @@ function fetchTestimonials($data, $db)
 function updateTestimonial($data, $db)
 {
     $response = array();
-
     try {
-
         $update_testimonial = "UPDATE testimonials SET testimonial=?,testifier_name=?,testifier_designation=?,testifier_company_name=? WHERE id=?";
         $update_testimonial_stmt = $db->stmt_init();
         if (!$update_testimonial_stmt->prepare($update_testimonial)) {
@@ -139,8 +140,7 @@ function updateTestimonial($data, $db)
             echo json_encode($response);
             die();
         } else {
-            $update_testimonial_stmt->bind_param('ssssi', $db->real_escape_string($data->testimonial), $db->real_escape_string($data->testifier_name), $db->real_escape_string($data->testifier_designation), $db->real_escape_string($data->testifier_company_name), $db->id);
-
+            $update_testimonial_stmt->bind_param('ssssi', $db->real_escape_string($data->testimonial), $db->real_escape_string($data->testifier_name), $db->real_escape_string($data->testifier_designation), $db->real_escape_string($data->testifier_company_name), $data->id);
             if ($update_testimonial_stmt->execute()) {
                 header_status(200);
                 $response['status'] = 'Success';
@@ -150,6 +150,80 @@ function updateTestimonial($data, $db)
                 header_status(503);
                 $response['status'] = 'Error';
                 $response['message'] = 'Update Testimonial failed';
+            }
+        }
+        echo json_encode($response);
+
+    } catch (Exception $e) {
+        header_status(503);
+        $response['status'] = 'Error';
+        $response['message'] = $e->getMessage();
+        echo json_encode($response);
+        die();
+    }
+}
+
+function updateShowOnSite($data, $db)
+{
+    $response = array();
+    try {
+        $update_testimonial = "UPDATE testimonials SET show_on_site=? WHERE id=?";
+        $update_testimonial_stmt = $db->stmt_init();
+        if (!$update_testimonial_stmt->prepare($update_testimonial)) {
+            header_status(500);
+            $response['status'] = 'Error';
+            $response['message'] = $update_testimonial_stmt->error;
+            echo json_encode($response);
+            die();
+        } else {
+            $update_testimonial_stmt->bind_param('ii', $data->show_on_site, $data->id);
+            if ($update_testimonial_stmt->execute()) {
+                header_status(200);
+                $response['status'] = 'Success';
+                $response['message'] = 'Updated';
+
+            } else {
+                header_status(503);
+                $response['status'] = 'Error';
+                $response['message'] = 'Update failed';
+            }
+        }
+        echo json_encode($response);
+
+    } catch (Exception $e) {
+        header_status(503);
+        $response['status'] = 'Error';
+        $response['message'] = $e->getMessage();
+        echo json_encode($response);
+        die();
+    }
+}
+
+function deleteTestimonial($data, $db)
+{
+    $response = array();
+
+    try {
+        $delete_testimonial = "DELETE FROM testimonials WHERE id=?";
+        $delete_testimonial_stmt = $db->stmt_init();
+        if (!$delete_testimonial_stmt->prepare($delete_testimonial)) {
+            header_status(500);
+            $response['status'] = 'Error';
+            $response['message'] = $delete_testimonial_stmt->error;
+            echo json_encode($response);
+            die();
+        } else {
+            $delete_testimonial_stmt->bind_param('i', $data->id);
+
+            if ($delete_testimonial_stmt->execute()) {
+                header_status(200);
+                $response['status'] = 'Success';
+                $response['message'] = 'Testimonial Deleted';
+
+            } else {
+                header_status(503);
+                $response['status'] = 'Error';
+                $response['message'] = 'Testimonial Deletion failed';
             }
         }
         echo json_encode($response);

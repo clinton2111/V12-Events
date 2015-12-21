@@ -44,11 +44,26 @@ angular.module 'V12Admin.dashBoardCtrl'
         q.reject(error)
       q.promise
 
-    deletePhoto: (data)->
-      data.location = 'delete_photo'
+    deleteTestimonial: (id)->
+      data =
+        location: 'delete_testimonial'
+        id: id
       q = $q.defer();
       $http
-        url: API.url + 'photoHandler.php'
+        url: API.url + 'testimonialHandler.php'
+        data: data
+        method: 'post'
+      .then (data)->
+        q.resolve data
+      , (error)->
+        q.reject(error)
+      q.promise
+
+    updateShowOnSite: (data)->
+      data.location = 'update_show_on_site'
+      q = $q.defer();
+      $http
+        url: API.url + 'testimonialHandler.php'
         data: data
         method: 'post'
       .then (data)->
