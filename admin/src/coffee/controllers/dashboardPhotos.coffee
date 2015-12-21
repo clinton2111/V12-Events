@@ -17,7 +17,12 @@ angular.module 'V12Admin.dashBoardCtrl'
         if data.status is 204 then Materialize.toast('No photos to load', 4000);
         else
           response = data.data
-          $scope.photos = response.results
+
+          if $scope.photos.length == 0 then $scope.photos = response.results
+          else
+            _.each(response.results, (index)->
+              $scope.photos.push(index)
+            )
       , (error)->
         Materialize.toast('Something went wrong', 4000);
 
@@ -62,7 +67,7 @@ angular.module 'V12Admin.dashBoardCtrl'
           $scope.photos.unshift
             id: response.id
             caption: pic.Caption
-            photo_image: response.imageName
+            image_name: response.imageName
 
           $scope.pic = angular.copy({});
           Materialize.toast response.status + " - " + response.message, 4000

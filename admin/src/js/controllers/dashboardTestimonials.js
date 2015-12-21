@@ -28,7 +28,14 @@
             return Materialize.toast('No testimonials to load', 4000);
           } else {
             response = data.data;
-            return $scope.testimonials = response.results;
+            if ($scope.testimonials.length === 0) {
+              $scope.testimonials = response.results;
+            } else {
+
+            }
+            return _.each(response.results, function(index) {
+              return $scope.testimonials.push(index);
+            });
           }
         }, function(error) {
           return Materialize.toast('Something went wrong', 4000);

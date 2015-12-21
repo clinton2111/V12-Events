@@ -21,7 +21,13 @@
             return Materialize.toast('No photos to load', 4000);
           } else {
             response = data.data;
-            return $scope.photos = response.results;
+            if ($scope.photos.length === 0) {
+              return $scope.photos = response.results;
+            } else {
+              return _.each(response.results, function(index) {
+                return $scope.photos.push(index);
+              });
+            }
           }
         }, function(error) {
           return Materialize.toast('Something went wrong', 4000);
@@ -74,7 +80,7 @@
             $scope.photos.unshift({
               id: response.id,
               caption: pic.Caption,
-              photo_image: response.imageName
+              image_name: response.imageName
             });
             $scope.pic = angular.copy({});
             return Materialize.toast(response.status + " - " + response.message, 4000);

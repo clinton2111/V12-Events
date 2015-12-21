@@ -1,5 +1,5 @@
 angular.module 'V12Admin', ['ui.router', 'V12Admin.authentication', 'angular-md5', 'satellizer', 'ngStorage',
-                            'V12Admin.dashBoardCtrl', 'ngFileUpload']
+                            'V12Admin.dashBoardCtrl', 'ngFileUpload', 'angularLazyImg']
 .config ['$stateProvider', '$urlRouterProvider', '$httpProvider', '$locationProvider', '$authProvider', 'API',
   ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, $authProvider, API)->
     $stateProvider
@@ -29,6 +29,12 @@ angular.module 'V12Admin', ['ui.router', 'V12Admin.authentication', 'angular-md5
       url: '/testimonials'
       templateUrl: API.views + 'dashboardTestimonials.html'
       controller: 'dashBoardTestimonialsController'
+      data:
+        requiresLogin: true
+    .state 'dashboard.videos',
+      url: '/videos'
+      templateUrl: API.views + 'dashboardVideos.html'
+      controller: 'dashBoardVideosController'
       data:
         requiresLogin: true
 

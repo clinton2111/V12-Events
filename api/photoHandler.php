@@ -50,7 +50,7 @@ function insertPhotos($data, $db)
     $response = array();
     $fileTempName = ($_FILES['file']['tmp_name']);
     $fileName = ($_FILES['file']['name']);
-    $caption = null;
+    $caption = 'NULL';
     $ext = pathinfo($fileName, PATHINFO_EXTENSION);
     $mod_name = uniqid() . ".$ext";
     $fileSize = $_FILES['file']['size'];

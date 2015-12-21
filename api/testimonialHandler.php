@@ -67,6 +67,7 @@ function insertTestimonial($data, $db)
                 $response['message'] = 'Testimonial upload failed';
             }
         }
+        echo json_encode($response);
     } catch (Exception $e) {
         header_status(503);
         $response['status'] = 'Error';

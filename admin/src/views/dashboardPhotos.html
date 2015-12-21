@@ -10,7 +10,7 @@
                         <div class="card-image">
                             <a href="{{picPaths.main_image+photos[$index].image_name}}" data-lightbox="image-1"
                                data-title="{{photos[$index].caption}}">
-                                <img src="{{picPaths.thumbnails+photos[$index].image_name}}"/></a>
+                                <img lazy-img="{{picPaths.thumbnails+photos[$index].image_name}}"/></a>
 
                         </div>
                         <div class="card-content">
@@ -28,7 +28,7 @@
                         <div class="card-image">
                             <a href="{{picPaths.main_image+photos[$index+1].image_name}}" data-lightbox="image-1"
                                data-title="{{photos[$index+1].caption}}">
-                                <img src="{{picPaths.thumbnails+photos[$index+1].image_name}}"/></a>
+                                <img lazy-img="{{picPaths.thumbnails+photos[$index+1].image_name}}"/></a>
 
                         </div>
                         <div class="card-content">
@@ -46,7 +46,7 @@
                         <div class="card-image">
                             <a href="{{picPaths.main_image+photos[$index+2].image_name}}" data-lightbox="image-1"
                                data-title="{{photos[$index+2].caption}}">
-                                <img src="{{picPaths.thumbnails+photos[$index+2].image_name}}"/></a>
+                                <img lazy-img="{{picPaths.thumbnails+photos[$index+2].image_name}}"/></a>
 
                         </div>
                         <div class="card-content">

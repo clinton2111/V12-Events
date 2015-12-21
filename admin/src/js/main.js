@@ -1,5 +1,5 @@
-/*! v12events - v1.0.0 - 2015-12-20 */(function() {
-  angular.module('V12Admin', ['ui.router', 'V12Admin.authentication', 'angular-md5', 'satellizer', 'ngStorage', 'V12Admin.dashBoardCtrl', 'ngFileUpload']).config([
+/*! v12events - v1.0.0 - 2015-12-21 */(function() {
+  angular.module('V12Admin', ['ui.router', 'V12Admin.authentication', 'angular-md5', 'satellizer', 'ngStorage', 'V12Admin.dashBoardCtrl', 'ngFileUpload', 'angularLazyImg']).config([
     '$stateProvider', '$urlRouterProvider', '$httpProvider', '$locationProvider', '$authProvider', 'API', function($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, $authProvider, API) {
       $stateProvider.state('auth', {
         url: '/auth/:type/:email/:value',
@@ -30,6 +30,13 @@
         url: '/testimonials',
         templateUrl: API.views + 'dashboardTestimonials.html',
         controller: 'dashBoardTestimonialsController',
+        data: {
+          requiresLogin: true
+        }
+      }).state('dashboard.videos', {
+        url: '/videos',
+        templateUrl: API.views + 'dashboardVideos.html',
+        controller: 'dashBoardVideosController',
         data: {
           requiresLogin: true
         }
@@ -244,7 +251,13 @@
             return Materialize.toast('No photos to load', 4000);
           } else {
             response = data.data;
-            return $scope.photos = response.results;
+            if ($scope.photos.length === 0) {
+              return $scope.photos = response.results;
+            } else {
+              return _.each(response.results, function(index) {
+                return $scope.photos.push(index);
+              });
+            }
           }
         }, function(error) {
           return Materialize.toast('Something went wrong', 4000);
@@ -297,7 +310,7 @@
             $scope.photos.unshift({
               id: response.id,
               caption: pic.Caption,
-              photo_image: response.imageName
+              image_name: response.imageName
             });
             $scope.pic = angular.copy({});
             return Materialize.toast(response.status + " - " + response.message, 4000);
@@ -369,7 +382,14 @@
             return Materialize.toast('No testimonials to load', 4000);
           } else {
             response = data.data;
-            return $scope.testimonials = response.results;
+            if ($scope.testimonials.length === 0) {
+              $scope.testimonials = response.results;
+            } else {
+
+            }
+            return _.each(response.results, function(index) {
+              return $scope.testimonials.push(index);
+            });
           }
         }, function(error) {
           return Materialize.toast('Something went wrong', 4000);
@@ -485,6 +505,97 @@
         });
       };
       return $scope.$watchCollection(['testimonials'], function() {
+        return $scope.$apply;
+      }, false);
+    }
+  ]);
+
+}).call(this);
+
+(function() {
+  angular.module('V12Admin.dashBoardCtrl').controller('dashBoardVideosController', [
+    '$scope', 'dashBoardVideosService', function($scope, dashBoardVideosService) {
+      var offset;
+      $scope.$on('$viewContentLoaded', function() {
+        return $('.modal-trigger').leanModal();
+      });
+      offset = 0;
+      $scope.videos = [];
+      $scope.fetchVideos = function(offset) {
+        if (offset === 0) {
+          $scope.videos = [];
+        }
+        return dashBoardVideosService.fetchVideos(offset).then(function(data) {
+          var response;
+          if (data.status === 204) {
+            return Materialize.toast('No videos to load', 4000);
+          } else {
+            response = data.data;
+            if ($scope.videos.length === 0) {
+              return $scope.videos = response.results;
+            } else {
+              return _.each(response.results, function(index) {
+                return $scope.videos.push(index);
+              });
+            }
+          }
+        }, function(error) {
+          return Materialize.toast('Something went wrong', 4000);
+        });
+      };
+      $scope.loadMore = function() {
+        offset = $scope.videos.length;
+        return $scope.fetchVideos(offset);
+      };
+      $scope.uploadVideo = function() {
+        var index, result, temp, url;
+        url = $scope.video_url;
+        index = url.lastIndexOf('/');
+        temp = url.substring(index + 1);
+        result = null;
+        if (temp.lastIndexOf('?v=') > -1) {
+          index = temp.lastIndexOf('=');
+          result = temp.substring(index + 1);
+        } else {
+          result = temp;
+        }
+        return dashBoardVideosService.uploadVideo(result).then(function(data) {
+          var response;
+          response = data.data;
+          if (response.status === 'Success') {
+            $scope.videos.unshift({
+              id: response.id,
+              video_id: result,
+              video_title: response.video_title
+            });
+            console.log($scope.videos);
+            $scope.video_url = null;
+            return Materialize.toast(response.status + " - " + response.message, 4000);
+          } else {
+            return Materialize.toast(response.status + " - " + response.message, 4000);
+          }
+        }, function(error) {
+          return Materialize.toast('Something went wrong', 4000);
+        });
+      };
+      $scope.deleteVideo = function(id) {
+        var data, index;
+        index = _.findIndex($scope.videos, {
+          id: id
+        });
+        data = {
+          id: id
+        };
+        return dashBoardVideosService.deleteVideo(data).then(function(data) {
+          var response;
+          response = data.data;
+          $scope.videos.splice(index, 1);
+          return Materialize.toast(response.status + " - " + response.message, 4000);
+        }, function(error) {
+          return Materialize.toast('Something went wrong', 4000);
+        });
+      };
+      return $scope.$watchCollection(['videos'], function() {
         return $scope.$apply;
       }, false);
     }
@@ -689,6 +800,66 @@
           q = $q.defer();
           $http({
             url: API.url + 'testimonialHandler.php',
+            data: data,
+            method: 'post'
+          }).then(function(data) {
+            return q.resolve(data);
+          }, function(error) {
+            return q.reject(error);
+          });
+          return q.promise;
+        }
+      };
+    }
+  ]);
+
+}).call(this);
+
+(function() {
+  angular.module('V12Admin.dashBoardCtrl').factory('dashBoardVideosService', [
+    '$http', '$q', 'API', function($http, $q, API) {
+      return {
+        fetchVideos: function(offset) {
+          var q;
+          q = $q.defer();
+          $http({
+            url: API.url + 'videoHandler.php',
+            data: {
+              'location': 'fetch_videos',
+              'offset': offset
+            },
+            method: 'post',
+            cache: true
+          }).then(function(data) {
+            return q.resolve(data);
+          }, function(error) {
+            return q.reject(error);
+          });
+          return q.promise;
+        },
+        uploadVideo: function(video_id) {
+          var q;
+          q = $q.defer();
+          $http({
+            url: API.url + 'videoHandler.php',
+            data: {
+              video_id: video_id,
+              location: 'insert_video'
+            },
+            method: 'POST'
+          }).then(function(data) {
+            return q.resolve(data);
+          }, function(error) {
+            return q.reject(error);
+          });
+          return q.promise;
+        },
+        deleteVideo: function(data) {
+          var q;
+          data.location = 'delete_video';
+          q = $q.defer();
+          $http({
+            url: API.url + 'videoHandler.php',
             data: data,
             method: 'post'
           }).then(function(data) {
