@@ -40,12 +40,20 @@
         data: {
           requiresLogin: true
         }
+      }).state('dashboard.settings', {
+        url: '/settings',
+        templateUrl: API.views + 'dashboardSettings.html',
+        controller: 'dashBoardSettingsController',
+        data: {
+          requiresLogin: true
+        }
       });
       $urlRouterProvider.otherwise('/auth');
       $urlRouterProvider.when('dashboard', 'dashboard.home');
       $urlRouterProvider.otherwise('/auth/login//');
       $authProvider.loginUrl = API.url + 'auth.php';
-      return $authProvider.tokenPrefix = 'v12events';
+      $authProvider.tokenPrefix = 'v12events';
+      return $httpProvider.interceptors.push('authHttpResponseInterceptor');
     }
   ]).constant('API', {
     url: '../api/',
@@ -68,7 +76,7 @@
         if (to.data && to.data.requiresLogin) {
           if ($auth.isAuthenticated() === false) {
             e.preventDefault();
-            return $state.go('auth', {
+            $state.go('auth', {
               type: 'login',
               email: null,
               value: null
@@ -82,7 +90,7 @@
             }
             refreshTokenFlag = moment().isSame(moment(lastUpdate), 'day');
             if (!refreshTokenFlag) {
-              return refreshToken().then(function(data) {
+              refreshToken().then(function(data) {
                 var tokenData;
                 tokenData = data;
                 if (!(_.isNull(tokenData.token) && _.isUndefined(tokenData.token))) {
@@ -102,7 +110,28 @@
             }
           }
         }
+        if ((to.templateUrl === API.views + 'auth.html') && ($auth.isAuthenticated() === true)) {
+          e.preventDefault();
+          return $state.go('dashboard.home');
+        }
       });
+    }
+  ]).factory('authHttpResponseInterceptor', [
+    '$q', '$location', function($q, $location) {
+      return {
+        response: function(response) {
+          if (response.status === 401) {
+            console.log("Response 401");
+          }
+          return response || $q.when(response);
+        },
+        responseError: function(rejection) {
+          if (rejection.status === 401) {
+            $location.path('/auth/login//').search('returnTo', $location.path());
+          }
+          return $q.reject(rejection);
+        }
+      };
     }
   ]);
 
@@ -353,6 +382,38 @@
 }).call(this);
 
 (function() {
+  angular.module('V12Admin.dashBoardCtrl').controller('dashBoardSettingsController', [
+    '$scope', 'dashBoardSettingsService', 'md5', '$auth', function($scope, dashBoardSettingsService, md5, $auth) {
+      return $scope.updatePassword = function() {
+        var data, payload;
+        if ($scope.password["new"] !== $scope.password.confirm) {
+          return Materialize.toast('New password and confirmation password do not match', 4000);
+        } else {
+          payload = $auth.getPayload();
+          data = {
+            currentPassword: md5.createHash($scope.password.current || ''),
+            newPassword: md5.createHash($scope.password["new"] || ''),
+            id: payload.id
+          };
+          return dashBoardSettingsService.updatePassword(data).then(function(data) {
+            var response;
+            response = data.data;
+            if (response.status === 'Success') {
+              return Materialize.toast(response.status + " - " + response.message, 4000);
+            } else {
+              return Materialize.toast(response.status + " - " + response.message, 4000);
+            }
+          }, function(error) {
+            return Materialize.toast('Something went wrong', 4000);
+          });
+        }
+      };
+    }
+  ]);
+
+}).call(this);
+
+(function() {
   angular.module('V12Admin.dashBoardCtrl').controller('dashBoardTestimonialsController', [
     '$scope', 'dashBoardTestimonialService', function($scope, dashBoardTestimonialService) {
       var offset;
@@ -383,13 +444,12 @@
           } else {
             response = data.data;
             if ($scope.testimonials.length === 0) {
-              $scope.testimonials = response.results;
+              return $scope.testimonials = response.results;
             } else {
-
+              return _.each(response.results, function(index) {
+                return $scope.testimonials.push(index);
+              });
             }
-            return _.each(response.results, function(index) {
-              return $scope.testimonials.push(index);
-            });
           }
         }, function(error) {
           return Materialize.toast('Something went wrong', 4000);
@@ -632,6 +692,31 @@
             method: 'POST',
             data: passwordData,
             skipAuthorization: true
+          }).then(function(data) {
+            return q.resolve(data);
+          }, function(error) {
+            return q.reject(error);
+          });
+          return q.promise;
+        }
+      };
+    }
+  ]);
+
+}).call(this);
+
+(function() {
+  angular.module('V12Admin.dashBoardCtrl').factory('dashBoardSettingsService', [
+    '$http', '$q', 'API', function($http, $q, API) {
+      return {
+        updatePassword: function(data) {
+          var q;
+          data.location = 'update_password';
+          q = $q.defer();
+          $http({
+            url: API.url + 'settingsHandler.php',
+            data: data,
+            method: 'post'
           }).then(function(data) {
             return q.resolve(data);
           }, function(error) {

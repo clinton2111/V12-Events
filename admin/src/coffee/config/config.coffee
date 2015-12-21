@@ -37,6 +37,12 @@ angular.module 'V12Admin', ['ui.router', 'V12Admin.authentication', 'angular-md5
       controller: 'dashBoardVideosController'
       data:
         requiresLogin: true
+    .state 'dashboard.settings',
+      url: '/settings'
+      templateUrl: API.views + 'dashboardSettings.html'
+      controller: 'dashBoardSettingsController'
+      data:
+        requiresLogin: true
 
 
     $urlRouterProvider.otherwise '/auth'
@@ -48,6 +54,7 @@ angular.module 'V12Admin', ['ui.router', 'V12Admin.authentication', 'angular-md5
     $authProvider.loginUrl = API.url + 'auth.php'
     $authProvider.tokenPrefix = 'v12events'
 
+    $httpProvider.interceptors.push('authHttpResponseInterceptor');
 
 ]
 
@@ -95,5 +102,21 @@ angular.module 'V12Admin', ['ui.router', 'V12Admin.authentication', 'angular-md5
             , (error)->
               e.preventDefault();
 
+      if (to.templateUrl is  API.views + 'auth.html') and ($auth.isAuthenticated() is true)
+        e.preventDefault()
+        $state.go 'dashboard.home'
+
 
 ]
+.factory('authHttpResponseInterceptor', ['$q', '$location', ($q, $location)->
+    return{
+    response: (response)->
+      if (response.status is 401)
+        console.log("Response 401");
+      response || $q.when(response);
+    responseError: (rejection)->
+      if (rejection.status is 401)
+        $location.path('/auth/login//').search('returnTo', $location.path());
+      $q.reject(rejection)
+    }
+  ])

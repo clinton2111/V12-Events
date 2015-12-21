@@ -29,13 +29,12 @@
           } else {
             response = data.data;
             if ($scope.testimonials.length === 0) {
-              $scope.testimonials = response.results;
+              return $scope.testimonials = response.results;
             } else {
-
+              return _.each(response.results, function(index) {
+                return $scope.testimonials.push(index);
+              });
             }
-            return _.each(response.results, function(index) {
-              return $scope.testimonials.push(index);
-            });
           }
         }, function(error) {
           return Materialize.toast('Something went wrong', 4000);

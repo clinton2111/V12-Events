@@ -182,7 +182,6 @@ function updateShowOnSite($data, $db)
                 header_status(200);
                 $response['status'] = 'Success';
                 $response['message'] = 'Updated';
-
             } else {
                 header_status(503);
                 $response['status'] = 'Error';

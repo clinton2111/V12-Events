@@ -23,11 +23,12 @@ angular.module 'V12Admin.dashBoardCtrl'
         if data.status is 204 then Materialize.toast('No testimonials to load', 4000);
         else
           response = data.data
-          if $scope.testimonials.length == 0 then $scope.testimonials = response.results
+#          $scope.testimonials = response.results
+          if $scope.testimonials.length is 0 then $scope.testimonials = response.results
           else
-          _.each(response.results, (index)->
-            $scope.testimonials.push(index)
-          )
+            _.each(response.results, (index)->
+              $scope.testimonials.push(index)
+            )
       , (error)->
         Materialize.toast('Something went wrong', 4000);
 

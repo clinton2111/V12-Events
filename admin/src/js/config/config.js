@@ -40,12 +40,20 @@
         data: {
           requiresLogin: true
         }
+      }).state('dashboard.settings', {
+        url: '/settings',
+        templateUrl: API.views + 'dashboardSettings.html',
+        controller: 'dashBoardSettingsController',
+        data: {
+          requiresLogin: true
+        }
       });
       $urlRouterProvider.otherwise('/auth');
       $urlRouterProvider.when('dashboard', 'dashboard.home');
       $urlRouterProvider.otherwise('/auth/login//');
       $authProvider.loginUrl = API.url + 'auth.php';
-      return $authProvider.tokenPrefix = 'v12events';
+      $authProvider.tokenPrefix = 'v12events';
+      return $httpProvider.interceptors.push('authHttpResponseInterceptor');
     }
   ]).constant('API', {
     url: '../api/',
@@ -68,7 +76,7 @@
         if (to.data && to.data.requiresLogin) {
           if ($auth.isAuthenticated() === false) {
             e.preventDefault();
-            return $state.go('auth', {
+            $state.go('auth', {
               type: 'login',
               email: null,
               value: null
@@ -82,7 +90,7 @@
             }
             refreshTokenFlag = moment().isSame(moment(lastUpdate), 'day');
             if (!refreshTokenFlag) {
-              return refreshToken().then(function(data) {
+              refreshToken().then(function(data) {
                 var tokenData;
                 tokenData = data;
                 if (!(_.isNull(tokenData.token) && _.isUndefined(tokenData.token))) {
@@ -102,7 +110,28 @@
             }
           }
         }
+        if ((to.templateUrl === API.views + 'auth.html') && ($auth.isAuthenticated() === true)) {
+          e.preventDefault();
+          return $state.go('dashboard.home');
+        }
       });
+    }
+  ]).factory('authHttpResponseInterceptor', [
+    '$q', '$location', function($q, $location) {
+      return {
+        response: function(response) {
+          if (response.status === 401) {
+            console.log("Response 401");
+          }
+          return response || $q.when(response);
+        },
+        responseError: function(rejection) {
+          if (rejection.status === 401) {
+            $location.path('/auth/login//').search('returnTo', $location.path());
+          }
+          return $q.reject(rejection);
+        }
+      };
     }
   ]);
 
