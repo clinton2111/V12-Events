@@ -1,21 +1,25 @@
-/*! v12events - v1.0.0 - 2015-12-21 */(function() {
-  angular.module('V12Events', ['ui.router', 'v12events.main', 'duScroll']).config([
-    '$stateProvider', '$urlRouterProvider', '$locationProvider', function($stateProvider, $urlRouterProvider, $locationProvider) {
+/*! v12events - v1.0.0 - 2015-12-22 */(function() {
+  angular.module('V12Events', ['ui.router', 'v12events.main', 'duScroll', 'angularLazyImg', 'vcRecaptcha']).config([
+    '$stateProvider', '$urlRouterProvider', '$locationProvider', 'API', function($stateProvider, $urlRouterProvider, $locationProvider, API) {
       $locationProvider.html5Mode(true);
       $stateProvider.state('home', {
         url: '/home',
-        templateUrl: '/frontend/src/views/main.html',
+        templateUrl: API.views + 'main.html',
         controller: 'mainController'
       });
       return $urlRouterProvider.otherwise('/home');
     }
-  ]);
+  ]).constant('API', {
+    url: '../api/',
+    views: '/frontend/src/views/',
+    gCaptchaPublicKey: '6LdppxMTAAAAADqap2kMLOfXg2Cqk5O6MqP3qUOg'
+  });
 
 }).call(this);
 
 (function() {
   angular.module('v12events.main', []).controller('mainController', [
-    '$scope', '$q', '$window', function($scope, $q, $window) {
+    '$scope', '$q', '$window', 'mainService', 'API', 'vcRecaptchaService', function($scope, $q, $window, mainService, API, vcRecaptchaService) {
       var loadScript, q;
       q = null;
       $scope.$on('$viewContentLoaded', function() {
@@ -34,6 +38,14 @@
         loadScript();
         return q.promise;
       });
+      $scope.publicKey = API.gCaptchaPublicKey;
+      $scope.photos = [];
+      $scope.videos = [];
+      $scope.testimonials = [];
+      $scope.picPaths = {
+        main_image: '../assets/photos/',
+        thumbnails: '../assets/thumbnails/'
+      };
       $window.initMap = function() {
         var center, img, infowindow, mapOptions, marker;
         center = new google.maps.LatLng(15.3912425, 73.8330925);
@@ -133,11 +145,179 @@
         infowindow.close();
         return q.resolve;
       };
-      return loadScript = function() {
+      loadScript = function() {
         var script;
         script = document.createElement('script');
         script.src = 'https://maps.googleapis.com/maps/api/js?callback=initMap';
         return document.body.appendChild(script);
+      };
+      $scope.fetchPhotos = function(offset) {
+        if (offset === 0) {
+          $scope.photos = [];
+        }
+        return mainService.fetchPhotos(offset).then(function(data) {
+          var response;
+          if (data.status === 204) {
+            return Materialize.toast('No photos to load', 4000);
+          } else {
+            response = data.data;
+            if ($scope.photos.length === 0) {
+              return $scope.photos = response.results;
+            } else {
+              return _.each(response.results, function(index) {
+                return $scope.photos.push(index);
+              });
+            }
+          }
+        }, function(error) {
+          return Materialize.toast('Something went wrong', 4000);
+        });
+      };
+      $scope.fetchVideos = function(offset) {
+        if (offset === 0) {
+          $scope.videos = [];
+        }
+        return mainService.fetchVideos(offset).then(function(data) {
+          var response;
+          if (data.status === 204) {
+            return Materialize.toast('No videos to load', 4000);
+          } else {
+            response = data.data;
+            if ($scope.videos.length === 0) {
+              return $scope.videos = response.results;
+            } else {
+              return _.each(response.results, function(index) {
+                return $scope.videos.push(index);
+              });
+            }
+          }
+        }, function(error) {
+          return Materialize.toast('Something went wrong', 4000);
+        });
+      };
+      $scope.fetchTestimonials = function(offset) {
+        if (offset === 0) {
+          $scope.testimonials = [];
+        }
+        return mainService.fetchTestimonials(offset).then(function(data) {
+          var response;
+          if (data.status === 204) {
+            return Materialize.toast('No testimonials to load', 4000);
+          } else {
+            response = data.data;
+            if ($scope.testimonials.length === 0) {
+              return $scope.testimonials = response.results;
+            } else {
+              return _.each(response.results, function(index) {
+                return $scope.testimonials.push(index);
+              });
+            }
+          }
+        }, function(error) {
+          return Materialize.toast('Something went wrong', 4000);
+        });
+      };
+      $scope.sendEmail = function() {
+        if (vcRecaptchaService.getResponse() === "") {
+          Materialize.toast('Please resolve the captcha', 4000);
+          return false;
+        } else {
+          $scope.email.g_recaptcha_response = vcRecaptchaService.getResponse();
+        }
+        console.log($scope.email);
+        return mainService.sendEmail($scope.email).then(function(data) {
+          var response;
+          response = data.data;
+          if (response.status === 'Success') {
+            return Materialize.toast(response.status + ' - ' + response.message, 4000);
+          } else {
+            return Materialize.toast(response.status + ' - ' + response.message, 4000);
+          }
+        }, function(error) {
+          return Materialize.toast('Opps something went wrong.', 4000);
+        });
+      };
+      return $scope.$watchCollection(['photos', 'videos', 'testimonials'], function() {
+        return $scope.$apply;
+      }, false);
+    }
+  ]);
+
+}).call(this);
+
+(function() {
+  angular.module('v12events.main').factory('mainService', [
+    '$http', '$q', 'API', function($http, $q, API) {
+      return {
+        fetchPhotos: function(offset) {
+          var q;
+          q = $q.defer();
+          $http({
+            url: API.url + 'frontendHandler.php',
+            data: {
+              'location': 'fetch_photos',
+              'offset': offset
+            },
+            method: 'post',
+            cache: true
+          }).then(function(data) {
+            return q.resolve(data);
+          }, function(error) {
+            return q.reject(error);
+          });
+          return q.promise;
+        },
+        fetchVideos: function(offset) {
+          var q;
+          q = $q.defer();
+          $http({
+            url: API.url + 'frontendHandler.php',
+            data: {
+              'location': 'fetch_videos',
+              'offset': offset
+            },
+            method: 'post',
+            cache: true
+          }).then(function(data) {
+            return q.resolve(data);
+          }, function(error) {
+            return q.reject(error);
+          });
+          return q.promise;
+        },
+        fetchTestimonials: function(offset) {
+          var q;
+          q = $q.defer();
+          $http({
+            url: API.url + 'frontendHandler.php',
+            data: {
+              'location': 'fetch_testimonials',
+              'offset': offset
+            },
+            method: 'post',
+            cache: true
+          }).then(function(data) {
+            return q.resolve(data);
+          }, function(error) {
+            return q.reject(error);
+          });
+          return q.promise;
+        },
+        sendEmail: function(emailData) {
+          var q;
+          q = $q.defer();
+          emailData.location = 'send_mail';
+          $http({
+            url: API.url + 'frontendHandler.php',
+            data: emailData,
+            method: 'post'
+          }).then(function(data) {
+            return q.resolve(data);
+          }, function(error) {
+            return q.reject(error);
+          });
+          return q.promise;
+        }
       };
     }
   ]);

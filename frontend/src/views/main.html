@@ -118,96 +118,95 @@
 <div id="Gallery" class="container">
     <h1 class="header ">Gallery</h1>
 
-    <h3>Photos</h3>
+    <section ng-init="fetchPhotos(0)">
+        <h3>Photos</h3>
 
-    <div class="row">
-        <div class="col s12 m3 l3 ">
-            <img class="materialboxed responsive-img" width="650" src="http://lorempixel.com/640/480/nightlife/">
-        </div>
-        <div class="col s12 m3 l3 ">
-            <img class="materialboxed responsive-img" width="650" src="http://lorempixel.com/640/480/nightlife/">
-        </div>
-        <div class="col s12 m3 l3 ">
-            <img class="materialboxed responsive-img" width="650" src="http://lorempixel.com/640/480/nightlife/">
-        </div>
-        <div class="col s12 m3 l3 ">
-            <img class="materialboxed responsive-img" width="650" src="http://lorempixel.com/640/480/nightlife/">
-        </div>
-
-    </div>
-    <h3>Videos</h3>
-
-    <div class="row">
-        <div class="col s12 m4 l4">
-            <div class="video-container">
-                <iframe width="640" height="480" src="https://www.youtube.com/v/eFzV4hrVfuk" frameborder="0"
-                        allowfullscreen></iframe>
+        <div ng-repeat="photo in photos" ng-if="$index % 3 == 0" class="row col s12 m12 l12">
+            <div class="col s4 m4 l4" ng-if="photos[$index]">
+                <a href="{{picPaths.main_image+photos[$index].image_name}}" data-lightbox="image-1"
+                   data-title="{{photos[$index].caption}}">
+                    <img lazy-img="{{picPaths.thumbnails+photos[$index].image_name}}" class="responsive-img"/></a>
             </div>
-        </div>
-        <div class="col s12 m4 l4">
-            <div class="video-container">
-                <iframe width="640" height="480" src="https://www.youtube.com/v/ydvJm83xlWk" frameborder="0"
-                        allowfullscreen></iframe>
+            <div class="col s4 m4 l4" ng-if="photos[$index+1]">
+                <a href="{{picPaths.main_image+photos[$index+1].image_name}}" data-lightbox="image-1"
+                   data-title="{{photos[$index+1].caption}}">
+                    <img lazy-img="{{picPaths.thumbnails+photos[$index+1].image_name}}" class="responsive-img"/></a>
             </div>
+            <div class="col s4 m4 l4" ng-if="photos[$index+2]">
+
+                <a href="{{picPaths.main_image+photos[$index+2].image_name}}" data-lightbox="image-1"
+                   data-title="{{photos[$index+2].caption}}">
+                    <img lazy-img="{{picPaths.thumbnails+photos[$index+2].image_name}}" class="responsive-img"/></a>
+            </div>
+
+
         </div>
 
-        <div class="col s12 m4 l4">
-            <div class="video-container">
-                <iframe width="640" height="480" src="https://www.youtube.com/v/UslFzWrEC_4" frameborder="0"
-                        allowfullscreen></iframe>
+        <div ng-show="photos.length!=0">
+            <div class="center"><a class="waves-effect waves-light btn blue-grey" ng-click="fetchPhotos(photos.length)">Load
+                More
+                Photos</a></div>
+        </div>
+        <div ng-show="photos.length==0">
+            <p class="flow-text">No Photos Found</p>
+        </div>
+    </section>
+
+
+    <section ng-init="fetchVideos(0)">
+        <h3>Videos</h3>
+
+        <div ng-repeat="video in videos" ng-if="$index % 3 == 0" class="row col s12 m12 l12">
+            <div class="col s4 m4 l4" ng-if="videos[$index]">
+                <a href="https://www.youtube.com/watch?v={{videos[$index].video_id}}" target="_blank"><img
+                        class="responsive-img"
+                        lazy-img="http://img.youtube.com/vi/{{videos[$index].video_id}}/sddefault.jpg"
+                        width="300"></a>
             </div>
+            <div class="col s4 m4 l4" ng-if="videos[$index+1]">
+                <a href="https://www.youtube.com/watch?v={{videos[$index+1].video_id}}" target="_blank"><img
+                        class="responsive-img"
+                        lazy-img="http://img.youtube.com/vi/{{videos[$index+1].video_id}}/sddefault.jpg"
+                        width="300"></a>
+            </div>
+            <div class="col s4 m4 l4" ng-if="videos[$index+2]">
+
+                <a href="https://www.youtube.com/watch?v={{videos[$index+2].video_id}}" target="_blank"><img
+                        class="responsive-img"
+                        lazy-img="http://img.youtube.com/vi/{{videos[$index+2].video_id}}/sddefault.jpg"
+                        width="300"></a>
+            </div>
+
+
         </div>
 
-    </div>
-    <div class="row">
-        <div class="col s12 m4 l4">
-            <div class="video-container">
-                <iframe width="640" height="480" src="https://www.youtube.com/v/wNT9x2fPaYY" frameborder="0"
-                        allowfullscreen></iframe>
-            </div>
+        <div ng-show="videos.length!=0">
+            <div class="center"><a class="waves-effect waves-light btn blue-grey" ng-click="fetchVideos(videos.length)">Load
+                More
+                Videos</a></div>
         </div>
-        <div class="col s12 m4 l4">
-            <div class="video-container">
-                <iframe width="640" height="480" src="https://www.youtube.com/v/BYaThZ_jeTs" frameborder="0"
-                        allowfullscreen></iframe>
-            </div>
+        <div ng-show="videos.length==0">
+            <p class="flow-text">No Videos Found</p>
         </div>
-    </div>
+    </section>
 </div>
 
 <div id="Testimonials">
     <div class="container"><h1 class="header ">Testimonials</h1></div>
 
-    <div class="slider_testimonial">
-        <ul class="slides">
+    <div class="slider_testimonial" ng-init="fetchTestimonials(0)">
+
+        <ul class="slides" ng-repeat="testimonial in testimonials">
             <li>
                 <img src="/assets/white.png" class="responsive-img"
                      style="background-color: #ffffff">
 
                 <div class="caption center-align">
-                    <h3 class="black-text">Very good Experience</h3>
-                    <h5 class="light black-text text-lighten-3">- John Doe</h5>
+                    <h3 class="black-text">{{testimonial.testimonial}}</h3>
+                    <h5 class="light black-text text-lighten-3">{{testimonial.testifier_name}} -
+                        {{testimonial.testifier_designation}}, {{testimonial.testifier_company_name}}</h5>
                 </div>
             </li>
-            <li>
-                <img src="/assets/white.png" class="responsive-img"
-                     style="background-color: #ffffff">
-
-                <div class="caption center-align">
-                    <h3 class="black-text">Very good Experience sure to recommend to others</h3>
-                    <h5 class="light black-text text-lighten-3">- Jane Doe</h5>
-                </div>
-            </li>
-            <li>
-                <img src="/assets/white.png" class="responsive-img"
-                     style="background-color: #ffffff">
-
-                <div class="caption center-align">
-                    <h3 class="black-text">Very good </h3>
-                    <h5 class="light black-text text-lighten-3">- John Doe</h5>
-                </div>
-            </li>
-
         </ul>
     </div>
 </div>
@@ -222,17 +221,16 @@
             <div class="col s12 m6 l6">
                 <h4 class="header center-align">Address</h4>
 
-                <p class="flow-text center-align">13, Miraton Gardens,<br>Airport Road, Chicalim,<br>Vasco Da Gama -
-                    403711,<br>Goa,<br>India</p>
+                <p class="flow-text center-align">123, ABC Block,<br>XYZ Road, Dubai,<br>UAE</p>
             </div>
             <div class="col s12 m6 l6">
                 <h4 class="header center-align">Contact Details</h4>
 
                 <div class="center-align">
-                    <p class="flow-text"><i class="mdi-communication-phone"></i> (+91) - 9921156262</p>
+                    <p class="flow-text"><i class="mdi-communication-phone"></i> (+91) - 9999999999</p>
                 </div>
                 <div class="center-align">
-                    <p class="flow-text"><i class="mdi-communication-email"></i> info@framen.com</p>
+                    <p class="flow-text"><i class="mdi-communication-email"></i> info@v12events.com</p>
                 </div>
             </div>
         </div>
@@ -264,8 +262,11 @@
                                       ng-model="email.msg"></textarea> <label for="message">Message</label>
                         </input-field>
                     </div>
+                    <div  class="row center">
+                        <div vc-recaptcha key="publicKey"></div>
+                    </div>
                     <div class="row center">
-                        <button class="btn waves-effect waves-light teal" type="submit">Send <i
+                        <button class="btn waves-effect waves-light blue-grey" type="submit">Send <i
                                 class="mdi-content-send right"></i></button>
                     </div>
                 </form>
@@ -281,7 +282,7 @@
         <div class="row">
             <div class="col l6 s12"><h5 class="white-text">Contact Details</h5>
 
-                <p class="blue-grey-text text-lighten-4">Phone Number: (+91) - 9921156262</p>
+                <p class="blue-grey-text text-lighten-4">Phone Number: (+91) - 9999999999</p>
 
                 <p class="blue-grey-text text-lighten-4">Email: info@v12events.com</p></div>
             <div class="col l4 offset-l2 s12"><h5 class="white-text">Links</h5>

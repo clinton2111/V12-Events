@@ -33,9 +33,11 @@ function SMTPSend($message, $SMTPDetails)
     $mail->AltBody = $message['AltBody'];
 
     if (!$mail->send()) {
+        header_status(503);
         $response['status'] = 'Error';
         $response['message'] = $mail->ErrorInfo;
     } else {
+        header_status(200);
         $response['status'] = 'Success';
         $response['message'] = $message['SuccessMessage'];
     }
