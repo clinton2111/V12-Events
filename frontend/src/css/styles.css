@@ -1,19 +1,41 @@
 .credPadding {
     padding-right: 10px
 }
+
 .inline li {
     display: inline;
     padding: 1%
 }
+
 svg {
     display: block;
 }
+
 .slider .slides li img {
-    background-size:100% auto;
+    background-size: 100% auto;
     background-repeat: no-repeat;
 }
+
 #map-canvas {
     height: 100%;
     margin: 0;
     padding: 0
+}
+
+.header-container {
+    height: 900px;
+
+}
+
+.topPadding {
+    padding-top: 20%;
+}
+
+/*.services-container {*/
+    /*min-height: 700px;*/
+/*}*/
+
+.drop-shadow {
+    -webkit-filter: drop-shadow(5px 5px 5px rgba(0,0,0,0.5));
+    filter: drop-shadow(5px 5px 5px rgba(0,0,0,0.5));
 }
