@@ -1,4 +1,4 @@
-/*! v12events - v1.0.0 - 2015-12-23 */(function() {
+/*! v12events - v1.0.0 - 2015-12-24 */(function() {
   angular.module('V12Admin', ['ui.router', 'V12Admin.authentication', 'angular-md5', 'satellizer', 'ngStorage', 'V12Admin.dashBoardCtrl', 'ngFileUpload', 'angularLazyImg']).config([
     '$stateProvider', '$urlRouterProvider', '$httpProvider', '$locationProvider', '$authProvider', 'API', function($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, $authProvider, API) {
       $stateProvider.state('auth', {
