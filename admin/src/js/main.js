@@ -1,4 +1,4 @@
-/*! v12events - v1.0.0 - 2015-12-24 */(function() {
+/*! v12events - v1.0.0 - 2015-12-28 */(function() {
   angular.module('V12Admin', ['ui.router', 'V12Admin.authentication', 'angular-md5', 'satellizer', 'ngStorage', 'V12Admin.dashBoardCtrl', 'ngFileUpload', 'angularLazyImg']).config([
     '$stateProvider', '$urlRouterProvider', '$httpProvider', '$locationProvider', '$authProvider', 'API', function($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, $authProvider, API) {
       $stateProvider.state('auth', {
@@ -342,6 +342,7 @@
               image_name: response.imageName
             });
             $scope.pic = angular.copy({});
+            '#photoModal'.closeModal();
             return Materialize.toast(response.status + " - " + response.message, 4000);
           } else {
             return Materialize.toast(response.status + " - " + response.message, 4000);
@@ -365,6 +366,7 @@
           response = data.data;
           if (response.status === 'Success') {
             $scope.photos[index].caption = new_caption;
+            '#updateCaption'.closeModal();
             return Materialize.toast(response.status + " - " + response.message, 4000);
           } else {
             return Materialize.toast(response.status + " - " + response.message, 4000);
@@ -421,17 +423,23 @@
       $scope.testimonials = [];
       offset = 0;
       $scope.openModal = function(id, modalType) {
-        var index;
+        var index, temp;
         if (_.isNull(id) && modalType === 'new_testimonial') {
-          $scope.modalType = 'new_testimonial';
+          return $('#new_testimonial_modal').openModal();
         } else {
           index = _.findIndex($scope.testimonials, {
             id: id
           });
-          $scope.tempData = $scope.testimonials[index];
-          $scope.modalType = 'update_testimonial';
+          temp = $scope.testimonials[index];
+          $scope.tempData = {
+            id: temp.id,
+            testimonial: temp.testimonial,
+            testifier_name: temp.testifier_name,
+            testifier_designation: temp.testifier_designation,
+            testifier_company_name: temp.testifier_company_name
+          };
+          return $('#update_testimonial_modal').openModal();
         }
-        return $('#testimonialModal').openModal();
       };
       $scope.fetchTestimonials = function(offset) {
         if (offset === 0) {
@@ -455,10 +463,10 @@
           return Materialize.toast('Something went wrong', 4000);
         });
       };
-      $scope.updateTestimonial = function() {
+      $scope.updateTestimonial = function(id) {
         var index;
         index = _.findIndex($scope.testimonials, {
-          id: $scope.tempData.id
+          id: id
         });
         return dashBoardTestimonialService.updateTestimonial($scope.tempData).then(function(data) {
           var response, show_on_site;
@@ -470,9 +478,9 @@
             $scope.testimonials[index].testifier_designation = $scope.tempData.testifier_designation;
             $scope.testimonials[index].testifier_company_name = $scope.tempData.testifier_company_name;
             $scope.testimonials[index].show_on_site = show_on_site;
-            console.log($scope.testimonials);
             $scope.tempData = {};
-            return Materialize.toast(response.status + " - " + response.message, 4000);
+            Materialize.toast(response.status + " - " + response.message, 4000);
+            return $('#update_testimonial_modal').closeModal();
           } else {
             return Materialize.toast(response.status + " - " + response.message, 4000);
           }
@@ -503,6 +511,7 @@
               show_on_site: new_testimonial_data.show_on_site
             });
             $scope.new_testimonial = angular.copy({});
+            $('#new_testimonial_modal').closeModal();
             return Materialize.toast(response.status + " - " + response.message, 4000);
           } else {
             return Materialize.toast(response.status + " - " + response.message, 4000);
@@ -534,7 +543,6 @@
         } else {
           newSos = 1;
         }
-        console.log('Old SoS =' + temp + " new SoS =" + newSos + " " + id);
         return dashBoardTestimonialService.updateShowOnSite({
           id: id,
           show_on_site: newSos

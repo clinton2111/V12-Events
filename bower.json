@@ -29,6 +29,8 @@
     "ng-file-upload": "4.2.1",
     "lightbox2": "~2.8.2",
     "angular-lazy-img": "~1.2.2",
-    "angular-recaptcha": "~2.2.5"
+    "angular-recaptcha": "~2.2.5",
+    "angular-waypoints": "~2.0.0",
+    "animate.css": "~3.5.0"
   }
 }

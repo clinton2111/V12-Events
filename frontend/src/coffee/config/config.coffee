@@ -1,4 +1,4 @@
-angular.module 'V12Events', ['ui.router', 'v12events.main', 'duScroll','angularLazyImg','vcRecaptcha']
+angular.module 'V12Events', ['ui.router', 'v12events.main', 'duScroll','angularLazyImg','vcRecaptcha','zumba.angular-waypoints']
 .config ['$stateProvider', '$urlRouterProvider', '$locationProvider', 'API',
   ($stateProvider, $urlRouterProvider, $locationProvider, API)->
     $locationProvider.html5Mode(true)

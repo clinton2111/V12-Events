@@ -83,6 +83,7 @@
               image_name: response.imageName
             });
             $scope.pic = angular.copy({});
+            '#photoModal'.closeModal();
             return Materialize.toast(response.status + " - " + response.message, 4000);
           } else {
             return Materialize.toast(response.status + " - " + response.message, 4000);
@@ -106,6 +107,7 @@
           response = data.data;
           if (response.status === 'Success') {
             $scope.photos[index].caption = new_caption;
+            '#updateCaption'.closeModal();
             return Materialize.toast(response.status + " - " + response.message, 4000);
           } else {
             return Materialize.toast(response.status + " - " + response.message, 4000);

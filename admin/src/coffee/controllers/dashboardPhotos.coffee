@@ -70,6 +70,7 @@ angular.module 'V12Admin.dashBoardCtrl'
             image_name: response.imageName
 
           $scope.pic = angular.copy({});
+          ('#photoModal').closeModal();
           Materialize.toast response.status + " - " + response.message, 4000
         else
           Materialize.toast response.status + " - " + response.message, 4000
@@ -87,9 +88,11 @@ angular.module 'V12Admin.dashBoardCtrl'
         response = data.data
         if response.status is 'Success'
           $scope.photos[index].caption = new_caption
+          ('#updateCaption').closeModal();
           Materialize.toast response.status + " - " + response.message, 4000
         else
           Materialize.toast response.status + " - " + response.message, 4000
+
       , (error)->
         Materialize.toast('Something went wrong', 4000);
 

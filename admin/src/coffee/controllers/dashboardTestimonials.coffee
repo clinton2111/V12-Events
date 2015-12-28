@@ -8,13 +8,19 @@ angular.module 'V12Admin.dashBoardCtrl'
 
     $scope.openModal = (id, modalType)->
       if _.isNull(id) and modalType is 'new_testimonial'
-        $scope.modalType = 'new_testimonial'
+        $ '#new_testimonial_modal'
+        .openModal();
       else
         index = _.findIndex($scope.testimonials, {id: id});
-        $scope.tempData = $scope.testimonials[index]
-        $scope.modalType = 'update_testimonial'
-      $ '#testimonialModal'
-      .openModal();
+        temp = $scope.testimonials[index]
+        $scope.tempData =
+          id:temp.id
+          testimonial: temp.testimonial
+          testifier_name: temp.testifier_name
+          testifier_designation: temp.testifier_designation
+          testifier_company_name: temp.testifier_company_name
+        $ '#update_testimonial_modal'
+        .openModal();
 
     $scope.fetchTestimonials = (offset)->
       if offset is 0 then $scope.testimonials = []
@@ -23,7 +29,6 @@ angular.module 'V12Admin.dashBoardCtrl'
         if data.status is 204 then Materialize.toast('No testimonials to load', 4000);
         else
           response = data.data
-#          $scope.testimonials = response.results
           if $scope.testimonials.length is 0 then $scope.testimonials = response.results
           else
             _.each(response.results, (index)->
@@ -32,8 +37,8 @@ angular.module 'V12Admin.dashBoardCtrl'
       , (error)->
         Materialize.toast('Something went wrong', 4000);
 
-    $scope.updateTestimonial = ->
-      index = _.findIndex($scope.testimonials, {id: $scope.tempData.id});
+    $scope.updateTestimonial = (id) ->
+      index = _.findIndex($scope.testimonials, {id: id});
       dashBoardTestimonialService.updateTestimonial($scope.tempData)
       .then (data)->
         response = data.data
@@ -45,9 +50,11 @@ angular.module 'V12Admin.dashBoardCtrl'
           $scope.testimonials[index].testifier_designation = $scope.tempData.testifier_designation
           $scope.testimonials[index].testifier_company_name = $scope.tempData.testifier_company_name
           $scope.testimonials[index].show_on_site = show_on_site
-          console.log $scope.testimonials
+
           $scope.tempData = {}
           Materialize.toast response.status + " - " + response.message, 4000
+          $ '#update_testimonial_modal'
+          .closeModal();
         else
           Materialize.toast response.status + " - " + response.message, 4000
       , (error)->
@@ -74,6 +81,8 @@ angular.module 'V12Admin.dashBoardCtrl'
             show_on_site: new_testimonial_data.show_on_site
 
           $scope.new_testimonial = angular.copy({});
+          $ '#new_testimonial_modal'
+          .closeModal();
           Materialize.toast response.status + " - " + response.message, 4000
         else
           Materialize.toast response.status + " - " + response.message, 4000
@@ -93,8 +102,6 @@ angular.module 'V12Admin.dashBoardCtrl'
       temp = $scope.testimonials[index].show_on_site
       if temp is 1 then newSos = 0 else newSos = 1
 
-
-      console.log 'Old SoS =' + temp + " new SoS =" + newSos + " " + id
 
       dashBoardTestimonialService.updateShowOnSite({id: id, show_on_site: newSos})
       .then (data)->

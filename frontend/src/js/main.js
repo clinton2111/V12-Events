@@ -1,5 +1,5 @@
-/*! v12events - v1.0.0 - 2015-12-24 */(function() {
-  angular.module('V12Events', ['ui.router', 'v12events.main', 'duScroll', 'angularLazyImg', 'vcRecaptcha']).config([
+/*! v12events - v1.0.0 - 2015-12-28 */(function() {
+  angular.module('V12Events', ['ui.router', 'v12events.main', 'duScroll', 'angularLazyImg', 'vcRecaptcha', 'zumba.angular-waypoints']).config([
     '$stateProvider', '$urlRouterProvider', '$locationProvider', 'API', function($stateProvider, $urlRouterProvider, $locationProvider, API) {
       $locationProvider.html5Mode(true);
       $stateProvider.state('home', {

@@ -11,6 +11,7 @@ angular.module 'v12events.main', []
     loadScript();
     q.promise
 
+
   $scope.publicKey =API.gCaptchaPublicKey
   $scope.photos=[]
   $scope.videos=[]
