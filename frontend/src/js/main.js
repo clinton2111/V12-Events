@@ -1,4 +1,4 @@
-/*! v12events - v1.0.0 - 2015-12-28 */(function() {
+/*! v12events - v1.0.0 - 2015-12-31 */(function() {
   angular.module('V12Events', ['ui.router', 'v12events.main', 'duScroll', 'angularLazyImg', 'vcRecaptcha', 'zumba.angular-waypoints']).config([
     '$stateProvider', '$urlRouterProvider', '$locationProvider', 'API', function($stateProvider, $urlRouterProvider, $locationProvider, API) {
       $locationProvider.html5Mode(true);
@@ -205,7 +205,7 @@
           icon: img
         });
         google.maps.event.addListener(marker, 'mouseover', function() {
-          infowindow.setContent('Framen Shipping Limited');
+          infowindow.setContent('V12 Events');
           infowindow.open($scope.map, this);
           return marker.setMap($scope.map);
         });
@@ -223,6 +223,7 @@
         if (offset === 0) {
           $scope.photos = [];
         }
+        $scope.fetchingPhotos = true;
         return mainService.fetchPhotos(offset).then(function(data) {
           var response;
           if (data.status === 204) {
@@ -239,12 +240,15 @@
           }
         }, function(error) {
           return Materialize.toast('Something went wrong', 4000);
+        })["finally"](function() {
+          return $scope.fetchingPhotos = false;
         });
       };
       $scope.fetchVideos = function(offset) {
         if (offset === 0) {
           $scope.videos = [];
         }
+        $scope.fetchingVideos = true;
         return mainService.fetchVideos(offset).then(function(data) {
           var response;
           if (data.status === 204) {
@@ -261,12 +265,15 @@
           }
         }, function(error) {
           return Materialize.toast('Something went wrong', 4000);
+        })["finally"](function() {
+          return $scope.fetchingVideos = false;
         });
       };
       $scope.fetchTestimonials = function(offset) {
         if (offset === 0) {
           $scope.testimonials = [];
         }
+        $scope.fetchingTestimonials = true;
         return mainService.fetchTestimonials(offset).then(function(data) {
           var response;
           if (data.status === 204) {
@@ -283,6 +290,8 @@
           }
         }, function(error) {
           return Materialize.toast('Something went wrong', 4000);
+        })["finally"](function() {
+          return $scope.fetchingTestimonials = false;
         });
       };
       $scope.sendEmail = function() {
@@ -305,7 +314,7 @@
           return Materialize.toast('Opps something went wrong.', 4000);
         });
       };
-      return $scope.$watchCollection(['photos', 'videos', 'testimonials'], function() {
+      return $scope.$watchCollection(['photos', 'videos', 'testimonials', 'fetchingPhotos', 'fetchingVideos', 'fetchingTestimonials'], function() {
         return $scope.$apply;
       }, false);
     }

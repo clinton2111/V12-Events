@@ -169,6 +169,8 @@
     <section ng-init="fetchPhotos(0)">
         <h3>Photos</h3>
 
+
+
         <div ng-repeat="photo in photos" ng-if="$index % 3 == 0" class="row col s12 m12 l12">
             <div class="col s4 m4 l4" ng-if="photos[$index]">
                 <a href="{{picPaths.main_image+photos[$index].image_name}}" data-lightbox="image-1"
@@ -190,6 +192,12 @@
 
         </div>
 
+        <div class="load-bar" ng-show="fetchingPhotos">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+
         <div ng-show="photos.length!=0">
             <div class="center"><a class="waves-effect waves-light btn blue-grey" ng-click="fetchPhotos(photos.length)">Load
                 More
@@ -198,6 +206,7 @@
         <div ng-show="photos.length==0">
             <p class="flow-text">No Photos Found</p>
         </div>
+
     </section>
 
 
@@ -226,6 +235,11 @@
             </div>
 
 
+        </div>
+        <div class="load-bar" ng-show="fetchingVideos">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
         </div>
 
         <div ng-show="videos.length!=0">
@@ -299,6 +313,12 @@
             </div>
 
 
+        </div>
+
+        <div class="load-bar" ng-show="fetchingTestimonials">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
         </div>
         <div ng-show="testimonials.length==0">
             <p class="flow-text">No Testimonials Found</p>
