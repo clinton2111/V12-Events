@@ -7,12 +7,11 @@ angular.module 'v12events.main', []
       .sideNav()
       $ '.slider'
 
+
       $('.parallax').parallax();
       q = $q.defer()
       loadScript();
       q.promise
-
-
     $scope.publicKey = API.gCaptchaPublicKey
     $scope.photos = []
     $scope.videos = []

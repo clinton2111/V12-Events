@@ -5,15 +5,21 @@
     <title>V12 Events Dubai</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--    Style Sheets-->
+
+    <!--For Production use only-->
+    <!--<link rel="stylesheet" href="frontend/dist/css/styles.min.css">-->
+    <!--<link rel="stylesheet" href="frontend/dist/css/vendor.css">-->
+
     <!--    Library Sheets-->
     <link rel="stylesheet" href="bower_components/Materialize/dist/css/materialize.min.css">
     <!--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
     <link href="bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="bower_components/lightbox2/dist/css/lightbox.min.css" rel="stylesheet">
     <link href="bower_components/animate.css/animate.min.css" rel="stylesheet">
-    <!--    Custom Stylesheets-->
 
+    <!--    Custom Stylesheets-->
     <link rel="stylesheet" href="frontend/src/css/styles.css">
+    
 </head>
 <body>
 <div class="outerLoading" id="loading">
@@ -34,6 +40,11 @@
 
 </ui-view>
 <!--Scripts-->
+
+<!--For production use only-->
+<!--<script src="frontend/dist/js/main.min.js"></script>-->
+<!--<script src="frontend/dist/js/vendor.js"></script>-->
+
 <!--Library Scripts-->
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script src="bower_components/angular/angular.min.js"></script>
@@ -43,12 +54,14 @@
 <script src="bower_components/underscore/underscore-min.js"></script>
 <script src="bower_components/angular-lazy-img/release/angular-lazy-img.min.js"></script>
 <script src="bower_components/lightbox2/dist/js/lightbox.min.js"></script>
-<script src="https://www.google.com/recaptcha/api.js?onload=vcRecaptchaApiLoaded&render=explicit" async defer></script>
 <script src="bower_components/angular-recaptcha/release/angular-recaptcha.min.js"></script>
 <script src="bower_components/angular-waypoints/dist/angular-waypoints.all.min.js"></script>
 
 
+<script src="https://www.google.com/recaptcha/api.js?onload=vcRecaptchaApiLoaded&render=explicit" async defer></script>
+
 <!--Application Scripts-->
 <script src="frontend/src/js/main.js"></script>
+
 </body>
 </html>
