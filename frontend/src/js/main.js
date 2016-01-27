@@ -1,4 +1,4 @@
-/*! v12events - v1.0.0 - 2016-01-25 */(function() {
+/*! v12events - v1.0.0 - 2016-01-28 */(function() {
   angular.module('V12Events', ['ui.router', 'v12events.main', 'duScroll', 'angularLazyImg', 'vcRecaptcha', 'zumba.angular-waypoints']).config([
     '$stateProvider', '$urlRouterProvider', '$locationProvider', 'API', function($stateProvider, $urlRouterProvider, $locationProvider, API) {
       $locationProvider.html5Mode(true);

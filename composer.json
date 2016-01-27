@@ -3,6 +3,7 @@
         "phpmailer/phpmailer": "dev-master",
         "firebase/php-jwt": "dev-master",
         "vlucas/phpdotenv": "dev-master",
-        "intervention/image": "dev-master"
+        "intervention/image": "dev-master",
+	"sendgrid/sendgrid": "dev-master"
     }
 }

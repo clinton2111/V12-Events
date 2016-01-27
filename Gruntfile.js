@@ -39,6 +39,8 @@ module.exports = function (grunt) {
     //Sass Requires
     var sass_require = ['bourbon'];
 
+    var mozjpeg = require('imagemin-mozjpeg');
+
 
     // ===========================================================================
     // CONFIGURE GRUNT ===========================================================
@@ -189,6 +191,7 @@ module.exports = function (grunt) {
                 options: {
                     sassDir: frontend_sass_src,
                     cssDir: frontend_css_src,
+                    imagesDir: 'assets',
                     environment: 'development',
                     outputStyle: 'expanded',
                     require: sass_require
@@ -232,6 +235,21 @@ module.exports = function (grunt) {
 
                 ]
             }
+        },
+        imagemin: {
+            bulid: {
+                options: {
+                    optimizationLevel: 4,
+                    svgoPlugins: [{removeViewBox: false}],
+                    use: [mozjpeg()]
+                },
+                files: [{
+                    expand: true,
+                    cwd: 'assets/',
+                    src: ['*.{png,jpg,gif,svg}'],
+                    dest: '_final/assets/'
+                }]
+            }
         }
 
     });
@@ -250,10 +268,11 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-compass');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-imagemin');
 
 
     grunt.registerTask('development', ['watch']);
     grunt.registerTask('build_vendor', ['concat:vendor']);
-    grunt.registerTask('wrap_it_up', ['concat:vendor', 'uglify', 'cssmin', 'htmlmin', 'copy']);
+    grunt.registerTask('wrap_it_up', ['concat:vendor', 'uglify', 'cssmin', 'htmlmin', 'copy', 'imagemin:bulid']);
 
 };

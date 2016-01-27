@@ -1,0 +1,38 @@
+.coverImage {
+
+  height: 100vh;
+  @include background(url(image-url('v12_header.jpg', true, false)));
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  .coverInfo {
+    margin: 0 auto 20px;
+    width: 600px;
+
+    .brand-logo {
+      img {
+        max-height: 300px;
+        height: 60%
+      }
+    }
+
+    .social-icons {
+      width:300px;
+      margin: 0 auto;
+      ul {
+
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+
+      }
+
+    }
+  }
+}

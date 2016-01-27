@@ -1,4 +1,3 @@
-
 <header>
     <div class="navbar-fixed z-depth-3">
         <nav class="blue-grey darken-2">
@@ -34,31 +33,27 @@
 </header>
 
 <main>
-<div id="Home" class="parallax-container header-container">
-    <div class="section topPadding ">
-        <div class="">
-            <div class="row center-align">
-                <img ng-src="../../../assets/v12Logo.svg" height="300" class="drop-shadow">
-            </div>
-            <div class="row center-align">
+
+<div id="Home">
+    <div class="coverImage">
+        <section class="coverInfo">
+            <section class="brand-logo">
+                <img ng-src="../../../assets/v12Logo.svg" class="drop-shadow">
+            </section>
+            <section>
                 <h5 class="header col s12 light white-text ">Welcome to V12 Events. The best event
                     management company in the UAE
                 </h5>
-            </div>
-            <div class="row center-align">
-                <ul class="inline">
+            </section>
+            <section class="social-icons">
+                <ul class="">
                     <li><a href="#"><i class="fa fa-facebook fa-3x white-text"></i></a></li>
                     <li><a href="#"><i class="fa fa-twitter fa-3x white-text"></i></a></li>
                     <li><a href="#"><i class="fa fa-instagram fa-3x white-text"></i></a></li>
                 </ul>
-            </div>
-
-        </div>
+            </section>
+        </section>
     </div>
-    <div class="parallax">
-        <img ng-src="../../../assets/v12_header.jpg">
-    </div>
-
 </div>
 
 <div id="About" class="relative-content">
@@ -89,7 +84,7 @@
         <div class="col s12 m12 l12">
             <div class="row" zum-waypoint="waypoints" down="fadeIn.on" up="fadeIn.off" offset="85%">
 
-                <div ng-class=" {'col s12 m4 l4':true,'animated fadeIn' : waypoints.fadeIn.on, 'animated fadeOut' : waypoints.fadeIn.off}">
+                <div ng-class=" {'col s12 m4 l4 fadeInItem':true,'animated fadeIn' : waypoints.fadeIn.on, 'animated fadeOut' : waypoints.fadeIn.off}">
 
                     <img src="../../../assets/birthday.svg" class="drop-shadow responsive-img">
                     <h4 class="center-align">Birthdays</h4>
@@ -99,7 +94,7 @@
                         sit amet placerat eget, cursus vel lacus. Maecenas id orci ut tellus efficitur dapibus eu at
                         ante.</p>
                 </div>
-                <div ng-class=" {'col s12 m4 l4':true,'animated fadeIn' : waypoints.fadeIn.on, 'animated fadeOut' : waypoints.fadeIn.off }">
+                <div ng-class=" {'col s12 m4 l4 fadeInItem':true,'animated fadeIn' : waypoints.fadeIn.on, 'animated fadeOut' : waypoints.fadeIn.off }">
 
                     <img src="../../../assets/corporate.svg" class="drop-shadow responsive-img">
                     <h4 class="center-align">Corporate Events</h4>
@@ -109,7 +104,7 @@
                         sit amet placerat eget, cursus vel lacus. Maecenas id orci ut tellus efficitur dapibus eu at
                         ante.</p>
                 </div>
-                <div ng-class=" {'col s12 m4 l4':true,'animated fadeIn' : waypoints.fadeIn.on, 'animated fadeOut' : waypoints.fadeIn.off }">
+                <div ng-class=" {'col s12 m4 l4 fadeInItem':true,'animated fadeIn' : waypoints.fadeIn.on, 'animated fadeOut' : waypoints.fadeIn.off }">
 
                     <img src="../../../assets/wedding.svg" class="drop-shadow responsive-img">
                     <h4 class="center-align">Weddings</h4>
@@ -136,29 +131,69 @@
 
         <p class=" flow-text">Here are some of the services we offer.</p>
 
-        <div class="row ">
-            <div class="col s12 m6 l6 center">
-                <ul>
-                    <li><p class="flow-text ">Party Entertainment</p></li>
-                    <li><p class="flow-text ">Music</p></li>
-                    <li><p class="flow-text ">Catering</p></li>
-                    <li><p class="flow-text">Hall Arrangements</p></li>
-                    <li><p class="flow-text">Decorations</p></li>
-                    <li><p class="flow-text">Lighting</p></li>
+        <section class="servicesMedia row center">
+            <section class="media col s12 m4 l4">
+                <img src="../../../assets/dj.svg"/>
 
-                </ul>
-            </div>
-            <div class="col s12 m6 l6 center">
-                <ul>
-                    <li><p class="flow-text">Sound Setup</p></li>
-                    <li><p class="flow-text">Magicians</p></li>
-                    <li><p class="flow-text">Clowns</p></li>
-                    <li><p class="flow-text">Cake Arrangements</p></li>
-                    <li><p class="flow-text">Beverages</p></li>
-                    <li><p class="flow-text">Random Item</p></li>
-                </ul>
-            </div>
-        </div>
+                <p class="content flow-text">Party Entertainment</p>
+            </section>
+            <section class="media col s12 m4 l4">
+                <img src="../../../assets/music.svg" class="circle"/>
+
+                <p class="content flow-text">Music</p>
+            </section>
+            <section class="media col s12 m4 l43">
+                <img src="../../../assets/food.svg"/>
+
+                <p class="content flow-text">Catering</p>
+            </section>
+            <section class="media col s12 m4 l4">
+                <img src="../../../assets/hall.svg"/>
+
+                <p class="content flow-text">Hall Arrangements</p>
+            </section>
+            <section class="media col s12 m4 l4">
+                <img src="../../../assets/balloons.svg"/>
+
+                <p class="content flow-text">Decorations</p>
+            </section>
+            <section class="media col s12 m4 l4">
+                <img src="../../../assets/light.svg"/>
+
+                <p class="content flow-text">Lighting</p>
+            </section>
+            <section class="media col s12 m4 l4">
+                <img src="../../../assets/sound.svg"/>
+
+                <p class="content flow-text">Sound Setup</p>
+            </section>
+            <section class="media col s12 m4 l4">
+                <img src="../../../assets/magic.svg"/>
+
+                <p class="content flow-text">Magicians</p>
+            </section>
+            <section class="media col s12 m4 l4">
+                <img src="../../../assets/clown.svg"/>
+
+                <p class="content flow-text">Clowns</p>
+            </section>
+            <section class="media col s12 m4 l4">
+                <img src="../../../assets/cake.svg"/>
+
+                <p class="content flow-text">Cake Arrangements</p>
+            </section>
+            <section class="media col s12 m4 l4">
+                <img src="../../../assets/beverages.svg"/>
+
+                <p class="content flow-text">Beverages</p>
+            </section>
+            <section class="media col s12 m4 l4">
+                <img src="../../../assets/music.svg"/>
+
+                <p class="content flow-text">Random Item</p>
+            </section>
+
+        </section>
     </div>
     <div class="parallax"><img ng-src="../../../assets/v12_services.jpg"></div>
 
@@ -169,7 +204,6 @@
 
     <section ng-init="fetchPhotos(0)">
         <h3>Photos</h3>
-
 
 
         <div ng-repeat="photo in photos" ng-if="$index % 3 == 0" class="row col s12 m12 l12">

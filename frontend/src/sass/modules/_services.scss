@@ -1,0 +1,23 @@
+.servicesMedia {
+
+  .media {
+    display: flex;
+    max-width: 600px;
+    margin: 10px 0 10px 30px;
+
+    img{
+      margin-right: 10px;
+      margin-left: 10px;
+      border-radius: 50%;
+      @include size(100px);
+      background-color: transparentize(white, .3);
+    }
+
+
+    .content {
+      flex: 1;
+
+    }
+
+  }
+}
