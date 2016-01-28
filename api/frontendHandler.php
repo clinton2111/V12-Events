@@ -23,7 +23,7 @@ try {
     } elseif ($data->location == 'fetch_testimonials') {
         fetchTestimonials($data, $db);
     } elseif ($data->location == 'send_mail') {
-        sendMail($data, $gCaptchaSecretKey, $SMTPDetails);
+        sendMail($data, $gCaptchaSecretKey, $SMTPDetails, $SendGrid_API_KEY);
     }
 
 } catch (Exception $e) {
@@ -187,7 +187,7 @@ function fetchTestimonials($data, $db)
 
 }
 
-function sendMail($data, $gCaptchaSecretKey, $SMTPDetails)
+function sendMail($data, $gCaptchaSecretKey, $SMTPDetails, $SendGrid_API_KEY)
 {
 
     $captcha = $data->g_recaptcha_response;
@@ -237,7 +237,6 @@ function sendMail($data, $gCaptchaSecretKey, $SMTPDetails)
 
 
             SMTPSend($mail, $SMTPDetails);
-
 
 
         } catch (exception $e) {

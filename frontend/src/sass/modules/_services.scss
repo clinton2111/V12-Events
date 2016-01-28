@@ -1,7 +1,7 @@
 .servicesMedia {
 
   .media {
-    display: flex;
+    @include display(flex);
     max-width: 600px;
     margin: 10px 0 10px 30px;
 
@@ -15,8 +15,21 @@
 
 
     .content {
-      flex: 1;
+      @include flex(1);
+      font-weight: 400;
 
+    }
+
+    &:hover{
+      @include background(transparentize(white, .7));
+      @include transition();
+      img{
+        background-color: transparentize($secondary-color, .3);
+        @include transform(scale(1.3))
+      }
+      .content {
+        @include transform(scale(1.3))
+      }
     }
 
   }

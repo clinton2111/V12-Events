@@ -1,0 +1,16 @@
+@mixin social-icons{
+  a {
+    padding-left: 15px;
+    .fa {
+      color: white;
+      @include transition();
+    }
+    &:hover {
+      .fa {
+        color: $secondary-color;
+        @include transform(scale(1.3))
+      }
+
+    }
+  }
+}

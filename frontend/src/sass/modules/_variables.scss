@@ -1,6 +1,6 @@
-$primary-color: color("blue-grey", "darken-2") !default;
-$primary-color-light: false !default;
-$primary-color-dark: false !default;
+$primary-color: #607d8b !default; //blue-grey
+$primary-color-light: lighten($primary-color, 15%) !default;
+$primary-color-dark: darken($primary-color, 15%) !default;
 @if not $primary-color-light {
   $primary-color-light: lighten($primary-color, 15%);
 }
@@ -9,9 +9,9 @@ $primary-color-dark: false !default;
   $primary-color-dark: darken($primary-color, 15%);
 }
 
-$secondary-color: color("yellow", "base") !default;
-$success-color: color("green", "base") !default;
-$error-color: color("red", "base") !default;
+$secondary-color: #ffc107 !default; //amber
+$success-color: #4caf50 !default; //green
+$error-color: #f44336 !default; //red
 
-$link-color: color("light-blue", "darken-1") !default;
+$link-color: #009688 !default; //teal
 

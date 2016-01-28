@@ -5,10 +5,11 @@
   background-size: cover;
   background-position: center;
   margin-bottom: 50px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  @include display(flex);
+  @include flex-direction(column);
+  @include justify-content(center);
+  @include align-items(center);
+
   text-align: center;
 
   .coverInfo {
@@ -23,16 +24,11 @@
     }
 
     .social-icons {
-      width:300px;
+      width: 300px;
       margin: 0 auto;
-      ul {
-
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-
-      }
-
+      @include display(flex);
+      @include justify-content(space-around);
+      @include social-icons
     }
   }
 }

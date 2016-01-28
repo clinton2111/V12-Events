@@ -15,3 +15,5 @@ angular.module 'V12Events', ['ui.router', 'v12events.main', 'duScroll','angularL
   url: '../api/'
   views: '/frontend/src/views/'
   gCaptchaPublicKey:'6LdppxMTAAAAADqap2kMLOfXg2Cqk5O6MqP3qUOg'
+
+.value('duScrollActiveClass', 'nav active_section')

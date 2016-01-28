@@ -13,7 +13,7 @@
     url: '../api/',
     views: '/frontend/src/views/',
     gCaptchaPublicKey: '6LdppxMTAAAAADqap2kMLOfXg2Cqk5O6MqP3qUOg'
-  });
+  }).value('duScrollActiveClass', 'nav active_section');
 
 }).call(this);
 

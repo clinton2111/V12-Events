@@ -18,6 +18,8 @@ $SMTPDetails['Password'] = getenv('MAIL_PASSWORD');
 $SMTPDetails['SMTPSecure'] = getenv('MAIL_ENCRYPTION');
 $SMTPDetails['Port'] = getenv('MAIL_PORT');
 
+$SendGrid_API_KEY = getenv('SENDGRID_API');
+
 $DB_HOST = getenv('DB_HOST');
 $DB_DATABASE = getenv('DB_DATABASE');
 $DB_USERNAME = getenv('DB_USERNAME');

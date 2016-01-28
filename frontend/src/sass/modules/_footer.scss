@@ -1,0 +1,17 @@
+footer {
+  .social-icons {
+    @include display(flex);
+    @include justify-content(flex-start);
+    @include social-icons;
+
+    a:nth-child(1){
+      padding-left: 0px;
+    }
+  }
+  .right{
+    a:nth-child(1){
+      padding-left: 5px;
+    }
+  }
+}
+
