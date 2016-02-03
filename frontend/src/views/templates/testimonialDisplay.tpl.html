@@ -1,0 +1,44 @@
+<section class="section-testimonials" ng-show="testimonials">
+    <div class="client-controls">
+        <div class="client-control-next">
+            <svg version="1.1" id="Layer_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
+	 x="0px" y="0px" viewBox="78.7 306.7 655 655" enable-background="new 78.7 306.7 655 655" xml:space="preserve">
+<circle stroke="#000000" stroke-miterlimit="10" cx="406.2" cy="634.2" r="327.5"/>
+<circle fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" cx="406.2" cy="634.2" r="290.9"/>
+<polyline fill="none" stroke="#000000" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="
+	342.7,741.4 489.4,632 489.4,632 489.4,632 489.4,632 342.9,522.4 "/>
+</svg>
+        </div>
+        <div class="client-control-prev">
+            <svg version="1.1" id="Layer_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
+	 x="0px" y="0px" viewBox="-327.5 952.5 655 655" enable-background="new -327.5 952.5 655 655" xml:space="preserve">
+<circle stroke="#000000" stroke-miterlimit="10" cx="0" cy="1280" r="327.5"/>
+<circle fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" cx="0" cy="1280" r="290.9"/>
+<polyline fill="none" stroke="#000000" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="
+	63.7,1387.2 -83,1277.8 -83,1277.8 -83,1277.8 -83,1277.8 63.5,1168.2 "/>
+</svg>
+        </div>
+    </div>
+    <div class="container clients-belt">
+        <blockquote ng-repeat="testimonial in testimonials" class="client-unit center-align"
+                    ng-class="{'active-client':$first}">
+            <div class="client-content">
+                <p>{{testimonial.testimonial}}</p>
+            </div>
+            <div class="client-details">
+                <p><span class="client-name"><strong>{{testimonial.testifier_name}}</strong></span> -
+                <span class="client-title"><em>{{testimonial.testifier_designation}},
+                    {{testimonial.testifier_company_name}}</em></span></p>
+            </div>
+        </blockquote>
+    </div>
+
+    <div class="clients-mobile-nav">
+
+        <span ng-repeat="testimonial in testimonials" class="client-button" ng-class="{'active-client':$first} "></span>
+
+
+    </div>
+</section>

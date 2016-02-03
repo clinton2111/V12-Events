@@ -1,12 +1,12 @@
 <?php
 header('Content-Type: application/javascript');
 
-require_once '../vendor/firebase/php-jwt/src/JWT.php';
+//require_once '../vendor/firebase/php-jwt/src/JWT.php';
+require_once '../vendor/autoload.php';
 use \Firebase\JWT\JWT;
 
 try {
     include 'connection.config.php';
-    include 'mailer.php';
     include 'HttpFunction.php';
 } catch (Exception $e) {
     header_status(500);
@@ -84,7 +84,7 @@ if ($data->type == 'login') {
     $temp_pass = $db->real_escape_string($data->value);
     $password = password_hash($data->password, PASSWORD_BCRYPT);
     $empty = "";
-    
+
     try {
         $update_pass = 'UPDATE users SET password=? WHERE email=? and temp_password=? ';
         $update_temp_pass = 'UPDATE users SET temp_password=? WHERE email=?';
@@ -172,35 +172,36 @@ if ($data->type == 'login') {
                 $URL = $HOST . "/admin/#/auth/recovery/" . $email . '/' . $randomString;
                 $msgStructure = 'Hello ' . $name . '<br> You have recently requested to retrieve your lost account password. Please click the link below to reset your password <br> <a href="' . $URL . '">Click Here</a>';
 
-                $message['From'] = 'noreply@v12eventsdubai.com';
-                $message['FromName'] = 'V12 Events - Password Recovery';
+                $sendgrid = new SendGrid($SendGrid_API_KEY);
+                $recovery_email = new SendGrid\Email();
+                $recovery_email
+                    ->addTo(array($email), array($name))
+                    ->setFrom('noreply@v12eventsdubai.com')
+                    ->setFromName('V12 Events - Password Recovery')
+                    ->setReplyTo(null)
+                    ->setSubject('Password Recovery Link')
+                    ->setHtml($msgStructure)
+                    ->setText(htmlentities($msgStructure));
 
-                $message['To'] = $email;
-                $message['ToName'] = $name;
-
-                $message['Reply'] = null;
-                $message['ReplyName'] = null;
-
-                $message['Subject'] = 'Password Recovery Link';
-                $message['Body'] = $msgStructure;
-                $message['AltBody'] = htmlentities($msgStructure);
-
-                $message['SuccessMessage'] = 'Message Sent. Please check your Inbox';
 
                 try {
-                    SMTPSend($message, $SMTPDetails);
+                    $sendgrid->send($recovery_email);
                     $update_user = 'UPDATE users SET temp_password=? WHERE id=?';
                     $update_user_stmt = $db->stmt_init();
                     if (!$update_user_stmt->prepare($update_user)) {
                         header_status(503);
                         $response['status'] = 'Error';
                         $response['message'] = $update_user_stmt->error;
-                        echo json_encode($response);
+
                         die();
                     } else {
                         $update_user_stmt->bind_param('si', $randomString, $id);
                         $update_user_stmt->execute();
+                        header_status(200);
+                        $response['status'] = 'Success';
+                        $response['message'] = 'Message Sent. Please check your Inbox';
                     }
+                    echo json_encode($response);
 
                 } catch (Exception $e) {
                     header_status(500);

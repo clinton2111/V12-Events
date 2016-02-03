@@ -147,63 +147,63 @@
 
         <p class=" flow-text">Here are some of the services we offer.</p>
 
-        <section class="servicesMedia row center">
-            <section class="media col s6 m4 l4">
+        <section class="servicesMedia row">
+            <section class="media col s6 m6 l4">
                 <img src="../../../assets/dj.svg"/>
 
                 <p class="content flow-text">Party Entertainment</p>
             </section>
-            <section class="media col s6 m4 l4">
+            <section class="media col s6 m6 l4">
                 <img src="../../../assets/music.svg" class="circle"/>
 
                 <p class="content flow-text">Music</p>
             </section>
-            <section class="media col s6  m4 l43">
+            <section class="media col s6  m6 l4">
                 <img src="../../../assets/food.svg"/>
 
                 <p class="content flow-text">Catering</p>
             </section>
-            <section class="media col s6 m4 l4">
+            <section class="media col s6 m6 l4">
                 <img src="../../../assets/hall.svg"/>
 
                 <p class="content flow-text">Hall Arrangements</p>
             </section>
-            <section class="media col s6 m4 l4">
+            <section class="media col s6 m6 l4">
                 <img src="../../../assets/balloons.svg"/>
 
                 <p class="content flow-text">Decorations</p>
             </section>
-            <section class="media col s6 m4 l4">
+            <section class="media col s6 m6 l4">
                 <img src="../../../assets/light.svg"/>
 
                 <p class="content flow-text">Lighting</p>
             </section>
-            <section class="media col s6 m4 l4">
+            <section class="media col s6 m6 l4">
                 <img src="../../../assets/sound.svg"/>
 
                 <p class="content flow-text">Sound Setup</p>
             </section>
-            <section class="media col s6 m4 l4">
+            <section class="media col s6 m6 l4">
                 <img src="../../../assets/magic.svg"/>
 
                 <p class="content flow-text">Magicians</p>
             </section>
-            <section class="media col s6 m4 l4">
+            <section class="media col s6 m6 l4">
                 <img src="../../../assets/clown.svg"/>
 
                 <p class="content flow-text">Clowns</p>
             </section>
-            <section class="media col s6 m4 l4">
+            <section class="media col s6 m6 l4">
                 <img src="../../../assets/cake.svg"/>
 
                 <p class="content flow-text">Cake Arrangements</p>
             </section>
-            <section class="media col s6 m4 l4">
+            <section class="media col s6 m6 l4">
                 <img src="../../../assets/beverages.svg"/>
 
                 <p class="content flow-text">Beverages</p>
             </section>
-            <section class="media col s6 m4 l4">
+            <section class="media col s6 m6 l4">
                 <img src="../../../assets/music.svg"/>
 
                 <p class="content flow-text">Random Item</p>
@@ -308,64 +308,67 @@
     <div class="container"><h1 class="header ">Testimonials</h1></div>
 
 
+    <!--<div ng-repeat="testimonial in testimonials" ng-if="$index % 3 == 0" class="row col s12 m12 l12">-->
+    <!--<div class="col s12 m4 l4" ng-if="testimonials[$index]">-->
+    <!--<div class="testimonial">-->
+
+    <!--<blockquote>-->
+    <!--<div class=" flow-text">{{testimonials[$index].testimonial}}-->
+    <!--</div>-->
+    <!--<br>-->
+
+    <!--<div><strong>{{testimonials[$index].testifier_name}}</strong><br/>-->
+    <!--{{testimonials[$index].testifier_designation}},-->
+    <!--{{testimonials[$index].testifier_company_name}}-->
+    <!--</div>-->
+    <!--</blockquote>-->
+    <!--</div>-->
+
+
+    <!--</div>-->
+    <!--<div class="col s12 m4 l4" ng-if="testimonials[$index+1]">-->
+    <!--<div class="testimonial">-->
+
+    <!--<blockquote>-->
+    <!--<div class=" flow-text">{{testimonials[$index+1].testimonial}}-->
+    <!--</div>-->
+    <!--<br>-->
+
+    <!--<div><strong>{{testimonials[$index+1].testifier_name}}</strong><br/>-->
+    <!--{{testimonials[$index+1].testifier_designation}},-->
+    <!--{{testimonials[$index+1].testifier_company_name}}-->
+    <!--</div>-->
+    <!--</blockquote>-->
+    <!--</div>-->
+
+
+    <!--</div>-->
+    <!--<div class="col s12 m4 l4" ng-if="testimonials[$index+2]">-->
+    <!--<div class="testimonial">-->
+
+    <!--<blockquote>-->
+    <!--<div class=" flow-text">{{testimonials[$index+2].testimonial}}-->
+    <!--</div>-->
+    <!--<br>-->
+
+    <!--<div><strong>{{testimonials[$index+2].testifier_name}}</strong><br/>-->
+    <!--{{testimonials[$index+2].testifier_designation}},-->
+    <!--{{testimonials[$index+2].testifier_company_name}}-->
+    <!--</div>-->
+    <!--</blockquote>-->
+    <!--</div>-->
+
+
+    <!--</div>-->
+
+
+    <!--</div>-->
+
+    <div testimonials-display testimonials="testimonials">
+
+    </div>
+
     <div class="container">
-
-        <div ng-repeat="testimonial in testimonials" ng-if="$index % 3 == 0" class="row col s12 m12 l12">
-            <div class="col s12 m4 l4" ng-if="testimonials[$index]">
-                <div class="testimonial">
-
-                    <blockquote>
-                        <div class=" flow-text">{{testimonials[$index].testimonial}}
-                        </div>
-                        <br>
-
-                        <div><strong>{{testimonials[$index].testifier_name}}</strong><br/>
-                            {{testimonials[$index].testifier_designation}},
-                            {{testimonials[$index].testifier_company_name}}
-                        </div>
-                    </blockquote>
-                </div>
-
-
-            </div>
-            <div class="col s12 m4 l4" ng-if="testimonials[$index+1]">
-                <div class="testimonial">
-
-                    <blockquote>
-                        <div class=" flow-text">{{testimonials[$index+1].testimonial}}
-                        </div>
-                        <br>
-
-                        <div><strong>{{testimonials[$index+1].testifier_name}}</strong><br/>
-                            {{testimonials[$index+1].testifier_designation}},
-                            {{testimonials[$index+1].testifier_company_name}}
-                        </div>
-                    </blockquote>
-                </div>
-
-
-            </div>
-            <div class="col s12 m4 l4" ng-if="testimonials[$index+2]">
-                <div class="testimonial">
-
-                    <blockquote>
-                        <div class=" flow-text">{{testimonials[$index+2].testimonial}}
-                        </div>
-                        <br>
-
-                        <div><strong>{{testimonials[$index+2].testifier_name}}</strong><br/>
-                            {{testimonials[$index+2].testifier_designation}},
-                            {{testimonials[$index+2].testifier_company_name}}
-                        </div>
-                    </blockquote>
-                </div>
-
-
-            </div>
-
-
-        </div>
-
         <div class="load-bar" ng-show="fetchingTestimonials">
             <div class="bar"></div>
             <div class="bar"></div>
@@ -405,7 +408,7 @@
                 <h4 class="center-align"> Get in touch.</h4>
             </div>
 
-            <div class="col s12 m4 l8 push-m2 push-l2">
+            <div class="col s12 m8 l8 push-m2 push-l2">
                 <form class="col s12" ng-submit="sendEmail()">
                     <div class="row">
                         <input-field class="input-field col s12"><i class="mdi-social-person prefix"></i> <input

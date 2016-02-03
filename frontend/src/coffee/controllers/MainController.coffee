@@ -141,7 +141,6 @@ angular.module 'v12events.main', []
         Materialize.toast('Please resolve the captcha', 4000);
         return false
       else $scope.email.g_recaptcha_response = vcRecaptchaService.getResponse()
-      console.log $scope.email
       mainService.sendEmail($scope.email)
       .then (data)->
         response = data.data;

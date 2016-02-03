@@ -4,11 +4,48 @@
 // all configuration goes inside this function
 module.exports = function (grunt) {
 
+
+
+
     //CSS and JS dependencies for the frontend and backend
-    var frontend_js_dependencies = ['bower_components/jquery/dist/jquery.min.js', 'bower_components/angular/angular.min.js', 'bower_components/angular-ui-router/release/angular-ui-router.min.js', "bower_components/Materialize/dist/js/materialize.min.js", "bower_components/angular-scroll/angular-scroll.min.js", "bower_components/underscore/underscore-min.js", "bower_components/angular-lazy-img/release/angular-lazy-img.min.js", "bower_components/lightbox2/dist/js/lightbox.min.js", "bower_components/angular-recaptcha/release/angular-recaptcha.min.js", "bower_components/angular-waypoints/dist/angular-waypoints.all.min.js"];
-    var frontend_css_dependencies = ["bower_components/font-awesome/css/font-awesome.min.css", "bower_components/lightbox2/dist/css/lightbox.min.css", "bower_components/animate.css/animate.min.css"];
-    var admin_js_dependencies = [];
-    var admin_css_dependencies = [];
+    var frontend_js_dependencies = [
+        'bower_components/jquery/dist/jquery.min.js',
+        'bower_components/angular/angular.min.js',
+        'bower_components/angular-ui-router/release/angular-ui-router.min.js',
+        "bower_components/Materialize/dist/js/materialize.min.js",
+        "bower_components/angular-scroll/angular-scroll.min.js",
+        "bower_components/underscore/underscore-min.js",
+        "bower_components/angular-lazy-img/release/angular-lazy-img.min.js",
+        "bower_components/lightbox2/dist/js/lightbox.min.js",
+        "bower_components/angular-recaptcha/release/angular-recaptcha.min.js",
+        "bower_components/angular-waypoints/dist/angular-waypoints.all.min.js"
+    ];
+    var frontend_css_dependencies = [
+        "bower_components/Materialize/dist/css/materialize.min.css",
+        "bower_components/font-awesome/css/font-awesome.min.css",
+        "bower_components/lightbox2/dist/css/lightbox.min.css",
+        "bower_components/animate.css/animate.min.css"
+    ];
+    var admin_js_dependencies = [
+        "bower_components/jquery/dist/jquery.min.js",
+        "bower_components/angular/angular.min.js",
+        "bower_components/angular-ui-router/release/angular-ui-router.min.js",
+        "bower_components/Materialize/dist/js/materialize.min.js",
+        "bower_components/angular-md5/angular-md5.min.js",
+        "bower_components/satellizer/satellizer.min.js",
+        "bower_components/moment/min/moment.min.js",
+        "bower_components/underscore/underscore-min.js",
+        "bower_components/ngstorage/ngStorage.min.js",
+        "bower_components/ng-file-upload/ng-file-upload.min.js",
+        "bower_components/ng-file-upload/ng-file-upload-shim.min.js",
+        "bower_components/lightbox2/dist/js/lightbox.min.js",
+        "bower_components/angular-lazy-img/release/angular-lazy-img.min.js"
+    ];
+    var admin_css_dependencies = [
+        "bower_components/Materialize/dist/css/materialize.min.css",
+        "bower_components/font-awesome/css/font-awesome.min.css",
+        "bower_components/lightbox2/dist/css/lightbox.min.css"
+    ];
 
     //CoffeeScript Locations
     var frontend_coffee_src = './frontend/src/coffee';
@@ -270,6 +307,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-imagemin');
 
+    grunt.option('force', true);
 
     grunt.registerTask('development', ['watch']);
     grunt.registerTask('build_vendor', ['concat:vendor']);

@@ -11,13 +11,6 @@ $alg = getenv('ALGORITHM');
 $gCaptchaSecretKey = getenv('GOOGLE_RECAPTCHA_SECRET');
 $HOST = getenv('HOST');
 
-$SMTPDetails = array();
-$SMTPDetails['Host'] = getenv('MAIL_HOST');
-$SMTPDetails['Username'] = getenv('MAIL_USERNAME');
-$SMTPDetails['Password'] = getenv('MAIL_PASSWORD');
-$SMTPDetails['SMTPSecure'] = getenv('MAIL_ENCRYPTION');
-$SMTPDetails['Port'] = getenv('MAIL_PORT');
-
 $SendGrid_API_KEY = getenv('SENDGRID_API');
 
 $DB_HOST = getenv('DB_HOST');

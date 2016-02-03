@@ -5,7 +5,6 @@ require_once '../vendor/autoload.php';
 try {
     include 'connection.config.php';
     include 'HttpFunction.php';
-    include 'mailer.php';
 } catch (Exception $e) {
     header_status(500);
     $response['status'] = 'Error';
@@ -23,7 +22,7 @@ try {
     } elseif ($data->location == 'fetch_testimonials') {
         fetchTestimonials($data, $db);
     } elseif ($data->location == 'send_mail') {
-        sendMail($data, $gCaptchaSecretKey, $SMTPDetails, $SendGrid_API_KEY);
+        sendMail($data, $gCaptchaSecretKey, $SendGrid_API_KEY);
     }
 
 } catch (Exception $e) {
@@ -187,7 +186,7 @@ function fetchTestimonials($data, $db)
 
 }
 
-function sendMail($data, $gCaptchaSecretKey, $SMTPDetails, $SendGrid_API_KEY)
+function sendMail($data, $gCaptchaSecretKey, $SendGrid_API_KEY)
 {
 
     $captcha = $data->g_recaptcha_response;
@@ -221,22 +220,28 @@ function sendMail($data, $gCaptchaSecretKey, $SMTPDetails, $SendGrid_API_KEY)
 
         try {
 
-            $mail['From'] = 'noreply@v12eventsdubai.com';
-            $mail['FromName'] = $data->name . ' (via. v12eventsdubai.com - Website)';
-
-            $mail['To'] = 'clinton92@gmail.com';
-            $mail['ToName'] = 'Clinton D\'souza';
-
-            $mail['Reply'] = $data->address;
-            $mail['ReplyName'] = $data->name;
-
-            $mail['Subject'] = $data->subject;
-            $mail['Body'] = htmlentities($data->msg);
-            $mail['AltBody'] = htmlentities($data->msg);
-            $mail['SuccessMessage'] = 'Message Sent';
+            $sendgrid = new SendGrid($SendGrid_API_KEY);
+            $email = new SendGrid\Email();
+            $email
+                ->addTo(array('clinton92@gmail.com'), array('Clinton D\'souza'))
+                ->setFrom('noreply@v12eventsdubai.com')
+                ->setFromName($data->name . ' (via. v12eventsdubai.com - Website)')
+                ->setReplyTo($data->address)
+                ->setSubject($data->subject)
+                ->setText(htmlentities($data->msg))
+                ->setHtml(htmlentities($data->msg));
 
 
-            SMTPSend($mail, $SMTPDetails);
+            if (!$sendgrid->send($email)) {
+                header_status(503);
+                $response['status'] = 'Error';
+                $response['message'] = 'Error sending message';
+            } else {
+                header_status(200);
+                $response['status'] = 'Success';
+                $response['message'] = 'Message Sent';
+            }
+            echo json_encode($response);
 
 
         } catch (exception $e) {

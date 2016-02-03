@@ -282,7 +282,6 @@
         } else {
           $scope.email.g_recaptcha_response = vcRecaptchaService.getResponse();
         }
-        console.log($scope.email);
         return mainService.sendEmail($scope.email).then(function(data) {
           var response;
           response = data.data;
