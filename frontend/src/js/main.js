@@ -1,4 +1,4 @@
-/*! v12events - v1.0.0 - 2016-01-30 */(function() {
+/*! v12events - v1.0.0 - 2016-02-04 */(function() {
   angular.module('V12Events', ['ui.router', 'v12events.main', 'duScroll', 'angularLazyImg', 'vcRecaptcha', 'zumba.angular-waypoints']).config([
     '$stateProvider', '$urlRouterProvider', '$locationProvider', 'API', function($stateProvider, $urlRouterProvider, $locationProvider, API) {
       $locationProvider.html5Mode(true);
@@ -24,7 +24,6 @@
       q = null;
       $scope.$on('$viewContentLoaded', function() {
         $(".button-collapse").sideNav();
-        $('.slider');
         $('.parallax').parallax();
         q = $q.defer();
         loadScript();
@@ -338,7 +337,6 @@
               return;
             }
             watcher();
-            console.log(scope.testimonials);
             $('.client-button').click(function() {
               var $this, position;
               $this = $(this);

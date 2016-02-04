@@ -10,6 +10,8 @@ $alg = getenv('ALGORITHM');
 
 $gCaptchaSecretKey = getenv('GOOGLE_RECAPTCHA_SECRET');
 $HOST = getenv('HOST');
+$MEMCACHED_PORT = '11211';
+$MEMCACHE_TTL = getenv('Cache_ttl');
 
 $SendGrid_API_KEY = getenv('SENDGRID_API');
 

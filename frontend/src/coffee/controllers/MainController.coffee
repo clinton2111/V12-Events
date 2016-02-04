@@ -5,9 +5,6 @@ angular.module 'v12events.main', []
     $scope.$on '$viewContentLoaded', ->
       $ ".button-collapse"
       .sideNav()
-      $ '.slider'
-
-
       $('.parallax').parallax();
       q = $q.defer()
       loadScript();

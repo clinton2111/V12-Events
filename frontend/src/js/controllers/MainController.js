@@ -5,7 +5,6 @@
       q = null;
       $scope.$on('$viewContentLoaded', function() {
         $(".button-collapse").sideNav();
-        $('.slider');
         $('.parallax').parallax();
         q = $q.defer();
         loadScript();

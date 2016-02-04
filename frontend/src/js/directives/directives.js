@@ -15,7 +15,6 @@
               return;
             }
             watcher();
-            console.log(scope.testimonials);
             $('.client-button').click(function() {
               var $this, position;
               $this = $(this);

@@ -11,7 +11,6 @@ angular.module 'v12events.main'
                 if (_.isUndefined(scope.testimonials) || _.isEmpty(scope.testimonials) ) then return
 
                 watcher()
-                console.log scope.testimonials
                 $('.client-button').click ()->
                     $this = $(this)
                     position = $this.parent().children().index($this);
