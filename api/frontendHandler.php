@@ -258,7 +258,7 @@ function sendMail($data, $gCaptchaSecretKey, $SendGrid_API_KEY)
             $sendgrid = new SendGrid($SendGrid_API_KEY);
             $email = new SendGrid\Email();
             $email
-                ->addTo(array('clinton92@gmail.com'), array('Clinton D\'souza'))
+                ->addTo(array(' '), array('Clinton D\'souza'))
                 ->setFrom('noreply@v12eventsdubai.com')
                 ->setFromName($data->name . ' (via. v12eventsdubai.com - Website)')
                 ->setReplyTo($data->address)
