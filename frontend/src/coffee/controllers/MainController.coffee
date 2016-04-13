@@ -152,4 +152,8 @@ angular.module 'v12events.main', []
       $scope.$apply
     , false
 ]
+.filter 'youtubeEmbedUrl',['$sce',($sce)->
+  return (videoId)->
+    return $sce.trustAsResourceUrl('http://www.youtube.com/embed/' + videoId);
 
+]

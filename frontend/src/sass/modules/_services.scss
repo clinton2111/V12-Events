@@ -1,41 +1,13 @@
-.servicesMedia {
-
-  .media {
-    @include display(flex);
-    max-width: 600px;
-    margin: 10px auto 30px;
-
-    img{
-      margin-right: 10px;
-      margin-left: 10px;
-      border-radius: 50%;
-      @include size(100px);
-      background-color: transparentize(white, .3);
-    }
-
-
-    .content {
-      @include flex(1);
-      font-weight: 400;
-
-    }
-
-    &:hover{
-      @include background(transparentize(white, .7));
-      @include transition();
-      img{
-        background-color: transparentize($secondary-color, .3);
-
-      }
-      .content {
-
-      }
-    }
-
+#Services{
+  .container{
+    background-color: rgba(255,255,255,0.2)
   }
-}
-@media #{$medium-and-down} {
-  .media {
-    display: block;
+  ul{
+    columns: 2;
+    -webkit-columns: 2;
+    -moz-columns: 2;
+    li{
+      font-size:25px
+    }
   }
 }

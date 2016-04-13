@@ -1,4 +1,4 @@
-/*! v12events - v1.0.0 - 2016-02-04 */(function() {
+/*! v12events - v1.0.0 - 2016-04-13 */(function() {
   angular.module('V12Events', ['ui.router', 'v12events.main', 'duScroll', 'angularLazyImg', 'vcRecaptcha', 'zumba.angular-waypoints']).config([
     '$stateProvider', '$urlRouterProvider', '$locationProvider', 'API', function($stateProvider, $urlRouterProvider, $locationProvider, API) {
       $locationProvider.html5Mode(true);
@@ -315,6 +315,12 @@
       return $scope.$watchCollection(['photos', 'videos', 'testimonials', 'fetchingPhotos', 'fetchingVideos', 'fetchingTestimonials'], function() {
         return $scope.$apply;
       }, false);
+    }
+  ]).filter('youtubeEmbedUrl', [
+    '$sce', function($sce) {
+      return function(videoId) {
+        return $sce.trustAsResourceUrl('http://www.youtube.com/embed/' + videoId);
+      };
     }
   ]);
 
