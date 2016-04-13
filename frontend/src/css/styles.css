@@ -380,11 +380,11 @@ svg {
   }
 }
 /* line 2, ../sass/modules/_nav.scss */
-nav .active_section {
+nav .active {
   position: relative;
 }
 /* line 4, ../sass/modules/_nav.scss */
-nav .active_section .active_border {
+nav .active .active_border {
   position: absolute;
   top: 0;
   left: 0;

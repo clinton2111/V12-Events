@@ -13,7 +13,7 @@
     url: '../api/',
     views: '/frontend/src/views/',
     gCaptchaPublicKey: '6LdppxMTAAAAADqap2kMLOfXg2Cqk5O6MqP3qUOg'
-  }).value('duScrollActiveClass', 'nav active_section');
+  });
 
 }).call(this);
 
@@ -39,7 +39,7 @@
       };
       $window.initMap = function() {
         var center, img, infowindow, mapOptions, marker;
-        center = new google.maps.LatLng(15.3912425, 73.8330925);
+        center = new google.maps.LatLng(25.1188608, 55.2053433);
         mapOptions = {
           zoom: 16,
           scrollwheel: false,

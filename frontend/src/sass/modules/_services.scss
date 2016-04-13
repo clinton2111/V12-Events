@@ -1,13 +1,14 @@
-#Services{
-  .container{
-    background-color: rgba(255,255,255,0.2)
-  }
-  ul{
-    columns: 2;
-    -webkit-columns: 2;
-    -moz-columns: 2;
-    li{
-      font-size:25px
+#Services {
+    .container {
+        background-color: rgba(255, 255, 255, 0.2)
     }
-  }
+    ul {
+        columns: 2;
+        -webkit-columns: 2;
+        -moz-columns: 2;
+        li {
+            font-size: 25px
+        }
+    }
 }
+
