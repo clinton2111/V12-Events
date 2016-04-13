@@ -13,7 +13,7 @@ $HOST = getenv('HOST');
 $MEMCACHED_PORT = '11211';
 $MEMCACHE_TTL = getenv('Cache_ttl');
 
-$SendGrid_API_KEY = getenv('SENDGRID_API');
+$SendGrid_API_KEY = getenv('SendGrid_API_KEY');
 
 $DB_HOST = getenv('DB_HOST');
 $DB_DATABASE = getenv('DB_DATABASE');

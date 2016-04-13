@@ -147,16 +147,16 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "1.2.2",
+            "version": "1.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "f5d04bdd2881ac89abde1fb78cc234bce24327bb"
+                "reference": "2e89629ff057ebb49492ba08e6995d3a6a80021b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/f5d04bdd2881ac89abde1fb78cc234bce24327bb",
-                "reference": "f5d04bdd2881ac89abde1fb78cc234bce24327bb",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/2e89629ff057ebb49492ba08e6995d3a6a80021b",
+                "reference": "2e89629ff057ebb49492ba08e6995d3a6a80021b",
                 "shasum": ""
             },
             "require": {
@@ -201,7 +201,7 @@
                 "stream",
                 "uri"
             ],
-            "time": "2016-01-23 01:23:02"
+            "time": "2016-02-18 21:54:00"
         },
         {
             "name": "intervention/image",
@@ -209,12 +209,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Intervention/image.git",
-                "reference": "86dfe2f2a95aa9eed58faf1cc1dae6534a6ce931"
+                "reference": "e368d262887dbb2fdfaf710880571ede51e9c0e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Intervention/image/zipball/86dfe2f2a95aa9eed58faf1cc1dae6534a6ce931",
-                "reference": "86dfe2f2a95aa9eed58faf1cc1dae6534a6ce931",
+                "url": "https://api.github.com/repos/Intervention/image/zipball/e368d262887dbb2fdfaf710880571ede51e9c0e6",
+                "reference": "e368d262887dbb2fdfaf710880571ede51e9c0e6",
                 "shasum": ""
             },
             "require": {
@@ -263,7 +263,7 @@
                 "thumbnail",
                 "watermark"
             ],
-            "time": "2016-01-10 11:20:02"
+            "time": "2016-02-26 18:18:19"
         },
         {
             "name": "psr/http-message",
@@ -320,12 +320,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sendgrid/sendgrid-php.git",
-                "reference": "d6e1cf57fc2e4916098b1c654ecb400b635b3a35"
+                "reference": "826cb4068515ca4b899e958fc51bdc75e2747cb2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sendgrid/sendgrid-php/zipball/d6e1cf57fc2e4916098b1c654ecb400b635b3a35",
-                "reference": "d6e1cf57fc2e4916098b1c654ecb400b635b3a35",
+                "url": "https://api.github.com/repos/sendgrid/sendgrid-php/zipball/826cb4068515ca4b899e958fc51bdc75e2747cb2",
+                "reference": "826cb4068515ca4b899e958fc51bdc75e2747cb2",
                 "shasum": ""
             },
             "require": {
@@ -359,7 +359,7 @@
                 "send",
                 "sendgrid"
             ],
-            "time": "2016-01-05 18:06:21"
+            "time": "2016-03-22 21:11:30"
         },
         {
             "name": "sendgrid/smtpapi",
@@ -411,16 +411,16 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v2.8.2",
+            "version": "v2.8.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
-                "reference": "ee278f7c851533e58ca307f66305ccb9188aceda"
+                "reference": "47d2d8cade9b1c3987573d2943bb9352536cdb87"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/ee278f7c851533e58ca307f66305ccb9188aceda",
-                "reference": "ee278f7c851533e58ca307f66305ccb9188aceda",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/47d2d8cade9b1c3987573d2943bb9352536cdb87",
+                "reference": "47d2d8cade9b1c3987573d2943bb9352536cdb87",
                 "shasum": ""
             },
             "require": {
@@ -467,7 +467,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
-            "time": "2016-01-13 10:28:07"
+            "time": "2016-03-07 14:04:32"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -475,12 +475,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/vlucas/phpdotenv.git",
-                "reference": "827febb0f15fd781cba52662700eef244d903f1f"
+                "reference": "11a353b704488944a7477b229d119fe1cfa56f68"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/827febb0f15fd781cba52662700eef244d903f1f",
-                "reference": "827febb0f15fd781cba52662700eef244d903f1f",
+                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/11a353b704488944a7477b229d119fe1cfa56f68",
+                "reference": "11a353b704488944a7477b229d119fe1cfa56f68",
                 "shasum": ""
             },
             "require": {
@@ -502,7 +502,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "BSD"
+                "BSD-3-Clause-Attribution"
             ],
             "authors": [
                 {
@@ -518,7 +518,7 @@
                 "env",
                 "environment"
             ],
-            "time": "2016-01-17 17:25:37"
+            "time": "2016-02-11 08:44:10"
         }
     ],
     "packages-dev": [],

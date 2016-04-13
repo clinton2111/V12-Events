@@ -8,6 +8,7 @@ try {
     $memcache_array['memcache'] = new Memcache;
     $memcache_array['cacheAvailable'] = $memcache_array['memcache']->connect($HOST, $MEMCACHED_PORT);
     $memcache_array['MEMCACHE_TTL'] = $MEMCACHE_TTL;
+	
 } catch (Exception $e) {
     header_status(500);
     $response['status'] = 'Error';
@@ -254,11 +255,10 @@ function sendMail($data, $gCaptchaSecretKey, $SendGrid_API_KEY)
     } else {
 
         try {
-
             $sendgrid = new SendGrid($SendGrid_API_KEY);
             $email = new SendGrid\Email();
             $email
-                ->addTo(array(' '), array('Clinton D\'souza'))
+                ->addTo(array(''), array('Clinton D\'souza'))
                 ->setFrom('noreply@v12eventsdubai.com')
                 ->setFromName($data->name . ' (via. v12eventsdubai.com - Website)')
                 ->setReplyTo($data->address)
@@ -269,21 +269,21 @@ function sendMail($data, $gCaptchaSecretKey, $SendGrid_API_KEY)
 
             if (!$sendgrid->send($email)) {
                 header_status(503);
-                $response['status'] = 'Error';
-                $response['message'] = 'Error sending message';
+                $mailResponse['status'] = 'Error';
+                $mailResponse['message'] = 'Error sending message';
             } else {
                 header_status(200);
-                $response['status'] = 'Success';
-                $response['message'] = 'Message Sent';
+                $mailResponse['status'] = 'Success';
+                $mailResponse['message'] = 'Message Sent';
             }
-            echo json_encode($response);
+            echo json_encode($mailResponse);
 
 
         } catch (exception $e) {
             header_status(503);
             $mailResponse['status'] = 'Error';
             $mailResponse['message'] = $e->getMessage();
-            echo json_encode($response);
+            echo json_encode($mailResponse);
             die();
         }
     }
