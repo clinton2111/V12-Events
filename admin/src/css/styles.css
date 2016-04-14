@@ -23,3 +23,10 @@
   background-color: #fff;
   background-color: rgba(255, 255, 255, 0.2);
 }
+
+/* line 1, ../sass/modules/_settings.scss */
+[ng-click],
+[data-ng-click],
+[x-ng-click] {
+  cursor: pointer;
+}

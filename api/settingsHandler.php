@@ -27,6 +27,12 @@ try {
     elseif ($data->location === 'add_email') {
         addEmail($data, $db);
     }
+    elseif ($data->location === 'fetch_email') {
+        fetchEmail($data,$db);
+    }
+    elseif ($data->location === 'delete_email') {
+        deleteEmail($data,$db);
+    }
 
 } catch (DomainException $e) {
     header_status(401);
@@ -154,6 +160,87 @@ function addEmail($data, $db){
         }
 
 
+        echo json_encode($response);
+    } catch (Exception $e) {
+        header_status(503);
+        $response['status'] = 'Error';
+        $response['message'] = $e->getMessage();
+        echo json_encode($response);
+        die();
+    }
+}
+
+function fetchEmail($data,$db){$response = array();
+    try {
+
+        $search = 'SELECT * FROM config WHERE `key`=?';
+        $search_stmt = $db->stmt_init();
+        if (!$search_stmt->prepare($search)) {
+            header_status(500);
+            $response['status'] = 'Error';
+            $response['message'] = $search_stmt->error;
+            echo json_encode($response);
+            die();
+        } else {
+            $key_ = 'website_mail_destination';
+            $search_stmt->bind_param('s', $key_);
+            $search_stmt->execute();
+            $result = $search_stmt->get_result();
+            $count = $result->num_rows;
+            if ($count > 0) {
+ 
+                while ($row = $result->fetch_assoc()) {
+                        $resultArray[] = $row;
+                }
+                header_status(200);
+                $response['status'] = 'Success';
+                $response['message'] = 'Email Fetched';
+                $response['results'] = $resultArray;
+            } else {
+                header_status(200);
+                $response['status'] = 'Error';
+                $response['message'] = 'No emails in database';
+            }
+        }
+
+
+        echo json_encode($response);
+    } catch (Exception $e) {
+        header_status(503);
+        $response['status'] = 'Error';
+        $response['message'] = $e->getMessage();
+        echo json_encode($response);
+        die();
+    }
+}
+
+function deleteEmail($data, $db)
+{
+    $response = array();
+
+    try {
+        $delete_email = "DELETE FROM config WHERE id=?";
+        $delete_email_stmt = $db->stmt_init();
+        if (!$delete_email_stmt->prepare($delete_email)) {
+            header_status(500);
+            $response['status'] = 'Error';
+            $response['message'] = $delete_email_stmt->error;
+            echo json_encode($response);
+            die();
+        } else {
+            $delete_email_stmt->bind_param('i', $data->id);
+
+            if ($delete_email_stmt->execute()) {
+                header_status(200);
+                $response['status'] = 'Success';
+                $response['message'] = 'Email Deleted';
+
+            } else {
+                header_status(503);
+                $response['status'] = 'Error';
+                $response['message'] = 'Email Deletion failed';
+            }
+        }
         echo json_encode($response);
     } catch (Exception $e) {
         header_status(503);

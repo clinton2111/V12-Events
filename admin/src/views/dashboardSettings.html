@@ -55,5 +55,25 @@
                 </form>
             </div>
         </div>
+        <div ng-init="fetchEmail()">
+            <h4 class="header thin">Current Entries</h4>
+            <table ng-if="emails" class="striped">
+                <thead>
+                    <tr>
+                        <th data-field="id">Email ID</th>
+                        <th data-field="name">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="email in emails">
+                        <td>{{email.value}}</td>
+                        <td>
+                            <a ng-click="deleteEmail(email.id)"><i class="fa fa-trash fa-3x" aria-hidden="true"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="flow-text" ng-show="!emails">No Emails</p>
+        </div>
     </div>
 </div>
