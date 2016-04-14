@@ -26,7 +26,7 @@ try {
     } elseif ($data->location == 'fetch_testimonials') {
         fetchTestimonials($data, $db, $memcache_array);
     } elseif ($data->location == 'send_mail') {
-        sendMail($data, $gCaptchaSecretKey, $SendGrid_API_KEY);
+        sendMail($data,  $db,$gCaptchaSecretKey, $SendGrid_API_KEY);
     }
 
 } catch (Exception $e) {
@@ -222,7 +222,7 @@ function fetchTestimonials($data, $db, $memcache_array)
 
 }
 
-function sendMail($data, $gCaptchaSecretKey, $SendGrid_API_KEY)
+function sendMail($data, $db, $gCaptchaSecretKey, $SendGrid_API_KEY)
 {
 
     $captcha = $data->g_recaptcha_response;
@@ -255,27 +255,50 @@ function sendMail($data, $gCaptchaSecretKey, $SendGrid_API_KEY)
     } else {
 
         try {
-            $sendgrid = new SendGrid($SendGrid_API_KEY);
-            $email = new SendGrid\Email();
-            $email
-                ->addTo(array(''), array('Clinton D\'souza'))
-                ->setFrom('noreply@v12eventsdubai.com')
-                ->setFromName($data->name . ' (via. v12eventsdubai.com - Website)')
-                ->setReplyTo($data->address)
-                ->setSubject($data->subject)
-                ->setText(htmlentities($data->msg))
-                ->setHtml(htmlentities($data->msg));
-
-
-            if (!$sendgrid->send($email)) {
-                header_status(503);
-                $mailResponse['status'] = 'Error';
-                $mailResponse['message'] = 'Error sending message';
+            $search = 'SELECT * FROM config WHERE `key`=?';
+            $search_stmt = $db->stmt_init();
+            if (!$search_stmt->prepare($search)) {
+                header_status(500);
+                $response['status'] = 'Error';
+                $response['message'] = $search_stmt->error;
+                echo json_encode($response);
+                die();
             } else {
-                header_status(200);
-                $mailResponse['status'] = 'Success';
-                $mailResponse['message'] = 'Message Sent';
+                $key_ = 'website_mail_destination';
+                $search_stmt->bind_param('s', $key_);
+                $search_stmt->execute();
+                $result = $search_stmt->get_result();
+                $count = $result->num_rows;
+                if ($count > 0) {
+     
+                    while ($row = $result->fetch_assoc()) {
+                            $email_ids[] = $row['value'];
+                    }
+                    
+                } 
+                $sendgrid = new SendGrid($SendGrid_API_KEY);
+                $email = new SendGrid\Email();
+                $email
+                    ->addTo($email_ids)
+                    ->setFrom('noreply@v12eventsdubai.com')
+                    ->setFromName($data->name . ' (via. v12eventsdubai.com - Website)')
+                    ->setReplyTo($data->address)
+                    ->setSubject($data->subject)
+                    ->setText(htmlentities($data->msg))
+                    ->setHtml(htmlentities($data->msg));
+
+
+                if (!$sendgrid->send($email)) {
+                    header_status(503);
+                    $mailResponse['status'] = 'Error';
+                    $mailResponse['message'] = 'Error sending message';
+                } else {
+                    header_status(200);
+                    $mailResponse['status'] = 'Success';
+                    $mailResponse['message'] = 'Message Sent';
+                }
             }
+
             echo json_encode($mailResponse);
 
 
