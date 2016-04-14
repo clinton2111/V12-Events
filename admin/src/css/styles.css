@@ -6,14 +6,19 @@
   background-size: cover;
 }
 
-/* line 9, ../sass/modules/_nav.scss */
+/* line 8, ../sass/modules/_nav.scss */
+#sidenav-overlay {
+  background-color: transparent;
+}
+
+/* line 12, ../sass/modules/_nav.scss */
 .navpic {
   padding-top: 20px;
   padding-right: 15px;
   padding-left: 15px;
 }
 
-/* line 16, ../sass/modules/_nav.scss */
+/* line 19, ../sass/modules/_nav.scss */
 .nav-bar-name {
   background-color: #fff;
   background-color: rgba(255, 255, 255, 0.2);

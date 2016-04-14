@@ -16,6 +16,21 @@
             return q.reject(error);
           });
           return q.promise;
+        },
+        addEmail: function(data) {
+          var q;
+          data.location = 'add_email';
+          q = $q.defer();
+          $http({
+            url: API.url + 'settingsHandler.php',
+            data: data,
+            method: 'post'
+          }).then(function(data) {
+            return q.resolve(data);
+          }, function(error) {
+            return q.reject(error);
+          });
+          return q.promise;
         }
       };
     }

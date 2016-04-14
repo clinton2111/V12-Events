@@ -1,4 +1,4 @@
-/*! v12events - v1.0.0 - 2016-04-13 */(function() {
+/*! v12events - v1.0.0 - 2016-04-14 */(function() {
   angular.module('V12Admin', ['ui.router', 'V12Admin.authentication', 'angular-md5', 'satellizer', 'ngStorage', 'V12Admin.dashBoardCtrl', 'ngFileUpload', 'angularLazyImg']).config([
     '$stateProvider', '$urlRouterProvider', '$httpProvider', '$locationProvider', '$authProvider', 'API', function($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, $authProvider, API) {
       $stateProvider.state('auth', {
@@ -386,7 +386,7 @@
 (function() {
   angular.module('V12Admin.dashBoardCtrl').controller('dashBoardSettingsController', [
     '$scope', 'dashBoardSettingsService', 'md5', '$auth', function($scope, dashBoardSettingsService, md5, $auth) {
-      return $scope.updatePassword = function() {
+      $scope.updatePassword = function() {
         var data, payload;
         if ($scope.password["new"] !== $scope.password.confirm) {
           return Materialize.toast('New password and confirmation password do not match', 4000);
@@ -409,6 +409,25 @@
             return Materialize.toast('Something went wrong', 4000);
           });
         }
+      };
+      return $scope.addEmail = function() {
+        var data;
+        console.log($scope.newEmail);
+        data = {
+          key: 'website_mail_destination',
+          value: $scope.newEmail
+        };
+        return dashBoardSettingsService.addEmail(data).then(function(data) {
+          var response;
+          response = data.data;
+          if (response.status === 'Success') {
+            return Materialize.toast(response.status + " - " + response.message, 4000);
+          } else {
+            return Materialize.toast(response.status + " - " + response.message, 4000);
+          }
+        }, function(error) {
+          return Materialize.toast('Something went wrong', 4000);
+        });
       };
     }
   ]);
@@ -720,6 +739,21 @@
         updatePassword: function(data) {
           var q;
           data.location = 'update_password';
+          q = $q.defer();
+          $http({
+            url: API.url + 'settingsHandler.php',
+            data: data,
+            method: 'post'
+          }).then(function(data) {
+            return q.resolve(data);
+          }, function(error) {
+            return q.reject(error);
+          });
+          return q.promise;
+        },
+        addEmail: function(data) {
+          var q;
+          data.location = 'add_email';
           q = $q.defer();
           $http({
             url: API.url + 'settingsHandler.php',

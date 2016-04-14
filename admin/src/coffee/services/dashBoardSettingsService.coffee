@@ -14,5 +14,19 @@ angular.module 'V12Admin.dashBoardCtrl'
         q.reject(error)
       q.promise
 
+
+    addEmail:(data)->
+      data.location = 'add_email'
+      q = $q.defer();
+      $http
+        url: API.url + 'settingsHandler.php'
+        data: data
+        method: 'post'
+      .then (data)->
+        q.resolve data
+      , (error)->
+        q.reject(error)
+      q.promise
+
   )
 ]

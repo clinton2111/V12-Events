@@ -5,6 +5,9 @@
   background-size: cover
 
 }
+#sidenav-overlay {
+	background-color:transparent
+}
 
 .navpic {
   @include padding(20px 15px null 15px);
